@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 const chalk = require('chalk');
 const spawn = require('cross-spawn');
+const {appPath, ownPath} = require('./scripts/config');
+
+if (appPath === ownPath) {
+  console.log(chalk.red.bold(`Cannot run in own repository!`));
+  process.exit(1);
+}
 
 const args = process.argv.slice(2);
 

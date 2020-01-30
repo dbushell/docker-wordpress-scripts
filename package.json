@@ -1,8 +1,8 @@
 {
   "name": "wordpress-docker",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "",
-  "main": "",
+  "main": "index.js",
   "bin": {
     "wordpress-docker": "index.js"
   },
