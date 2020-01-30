@@ -1,8 +1,10 @@
+const path = require('path');
+const spawn = require('cross-spawn');
 const ora = require('ora');
 const chalk = require('chalk');
 const init = require('./init');
 const docker = require('./docker');
-
+const {appPkg, ownPath, appPath} = require('./config');
 init();
 
 const child = docker.compose('up', false);
@@ -51,20 +53,47 @@ child.stdout.on('data', data => {
   lines.forEach(line => {
     line = line.trim();
     waiting.forEach(service => {
-      if (service.pattern.test(line)) {
+      if (service.pattern.test(line) && !service.ready) {
         service.ready = true;
         if (!nextSpinner()) {
-          process.exit(0);
+          afterDocker();
         }
       }
     });
   });
 });
 
-// child.stderr.on('data', (data) => {
+// child.stderr.on('data', data => {
 //   console.error(`stderr: ${data}`);
 // });
 
 child.on('close', code => {
   process.exit(0);
 });
+
+function afterDocker() {
+  const env = [
+    'WP_TITLE="Demo One"',
+    'WP_ADMIN_USER=admin',
+    'WP_ADMIN_PASSWORD=password',
+    'WP_ADMIN_EMAIL=hello@example.com'
+  ];
+
+  const options = [
+    'exec',
+    '-ti',
+    ...env.reduce((e, v) => e.concat(['-e', v]), []),
+    `${appPkg.name}_wordpress_1`,
+    'wpcli.sh'
+  ];
+
+  spawn.sync(`docker`, options, {
+    stdio: 'inherit',
+    cwd: ownPath,
+    env: {
+      PATH: process.env.PATH
+    }
+  });
+
+  process.exit(0);
+}
