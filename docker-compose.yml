@@ -1,0 +1,65 @@
+version: "3"
+
+networks:
+  backend:
+  frontend:
+    external:
+      name: nginx_proxy
+
+services:
+
+  database:
+    # container_name: "${PROJECT_NAME}_mysql"
+    image: mysql:5.7
+    volumes:
+      - ${PROJECT_BASE}/_mysql:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: password
+    networks:
+      - backend
+
+  wordpress:
+    # container_name: "${PROJECT_NAME}_wordpress"
+    image: wordpress:latest
+    depends_on:
+      - database
+    expose:
+      - "80"
+    volumes:
+      # - ${PROJECT_BASE}/wordpress/wp-config.php:/var/www/html/wp-config.php
+      # - ${PROJECT_BASE}/wordpress/wp-content:/var/www/html/wp-content
+      - ${PROJECT_BASE}/wordpress:/var/www/html
+      - ${PROJECT_BASE}/bin/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: password
+      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      VIRTUAL_PORT: 80
+    networks:
+      - backend
+      - frontend
+
+  phpmyadmin:
+    # container_name: "${PROJECT_BASE}_pma"
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - database
+    expose:
+      - "80"
+    restart: unless-stopped
+    environment:
+      PMA_HOST: database:3306
+      PMA_USER: wordpress
+      PMA_PASSWORD: password
+      VIRTUAL_HOST: "pma.${VIRTUAL_HOST}"
+      VIRTUAL_PORT: 80
+    networks:
+      - backend
+      - frontend
