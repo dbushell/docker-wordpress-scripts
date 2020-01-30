@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "main": "",
-  "scripts": {
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/dbushell/wordpress-docker.git"
   },
   "author": "David Bushell <david@dbushell.com>",
   "license": "MIT"
