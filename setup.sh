@@ -16,7 +16,7 @@ cd ${ROOT};
 # Set environment variables
 source ${ROOT}/.env;
 
-PROJECT_BASE=${ROOT};
+PROJECT_ROOT=${ROOT};
 
 set +a;
 

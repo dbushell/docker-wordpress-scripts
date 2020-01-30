@@ -12,7 +12,7 @@ services:
     # container_name: "${PROJECT_NAME}_mysql"
     image: mysql:5.7
     volumes:
-      - ${PROJECT_BASE}/_mysql:/var/lib/mysql
+      - ${PROJECT_ROOT}/_mysql:/var/lib/mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -30,10 +30,10 @@ services:
     expose:
       - "80"
     volumes:
-      # - ${PROJECT_BASE}/wordpress/wp-config.php:/var/www/html/wp-config.php
-      # - ${PROJECT_BASE}/wordpress/wp-content:/var/www/html/wp-content
-      - ${PROJECT_BASE}/wordpress:/var/www/html
-      - ${PROJECT_BASE}/bin/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      # - ${PROJECT_ROOT}/wordpress/wp-config.php:/var/www/html/wp-config.php
+      # - ${PROJECT_ROOT}/wordpress/wp-content:/var/www/html/wp-content
+      - ${PROJECT_ROOT}/wordpress:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: database:3306
@@ -47,7 +47,7 @@ services:
       - frontend
 
   phpmyadmin:
-    # container_name: "${PROJECT_BASE}_pma"
+    # container_name: "${PROJECT_ROOT}_pma"
     image: phpmyadmin/phpmyadmin
     depends_on:
       - database

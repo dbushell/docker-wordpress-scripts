@@ -1,13 +1,19 @@
 {
   "name": "wordpress-docker",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
   "main": "",
-  "scripts": {},
+  "bin": {
+    "wordpress-docker": "index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/dbushell/wordpress-docker.git"
   },
   "author": "David Bushell <david@dbushell.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "cross-spawn": "^7.0.1"
+  }
 }
