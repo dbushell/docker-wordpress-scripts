@@ -2,7 +2,7 @@
 
 DWS is a small set of scripts to manage WordPress containers in Docker. It uses an NGINX proxy for `*.localhost` domains to avoid manual port assignment.
 
-This is **work in progress** and **unstable**!
+**This is work in progress and unstable!**
 
 Follow [@dbushell](https://twitter.com/dbushell) for updates.
 
@@ -36,7 +36,7 @@ Show list of commands.
 npx dws init
 ```
 
-DWS will spin up new docker containers and install WordPress. You'll be asked a few configuration values.
+DWS will spin up new Docker containers and install WordPress. You'll be asked a few configuration values.
 
 Once successful you'll see:
 
@@ -83,10 +83,6 @@ npx dws eject
 ```
 
 Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to your project directory. You can continue by using `docker-compose` in the terminal.
-
-# Configuration
-
-Coming soon...
 
 ## Credits / License
 
