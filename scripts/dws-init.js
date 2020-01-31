@@ -33,63 +33,63 @@ async function dwsInit() {
 
   const child = docker.compose('up', false);
 
-  let waitIndex = -1;
-  const waiting = [
+  const spinner = ora();
+
+  const containers = [
     {
       ready: false,
-      spinner: `Waiting database       ... `,
+      name: 'database',
       pattern: new RegExp('database(.*?)mysqld: ready for connections.')
     },
     {
       ready: false,
-      spinner: `Waiting for WordPress  ... `,
+      name: 'WordPress',
       pattern: new RegExp(
         `wordpress(.*?)AH00094: Command line: 'apache2 -D FOREGROUND'`
       )
     },
     {
       ready: false,
-      spinner: `Waiting for phpMyAdmin ... `,
+      name: 'phpMyAdmin',
       pattern: new RegExp(
         `phpmyadmin(.*?)AH00094: Command line: 'apache2 -D FOREGROUND'`
       )
     }
   ];
 
-  const spinner = ora();
-  function nextSpinner() {
-    waitIndex++;
-    if (spinner.isSpinning) {
-      spinner.succeed(waiting[waitIndex - 1].spinner + chalk.green('done'));
-    }
-    if (waitIndex < waiting.length) {
-      spinner.start(waiting[waitIndex].spinner);
+  function updateReady() {
+    const notReady = containers.reduce((arr, service) => {
+      if (!service.ready) {
+        arr.push(service.name);
+      }
+      return arr;
+    }, []);
+    if (notReady.length) {
+      spinner.start(`Waiting for containers: ${notReady.join(', ')}...`);
     } else {
-      return false;
+      spinner.succeed('Docker containers ready');
     }
-    return true;
+    return notReady;
   }
 
-  nextSpinner();
+  updateReady();
 
   child.stdout.on('data', data => {
     const lines = data.toString().split(/\r?\n/);
     lines.forEach(line => {
       line = line.trim();
-      waiting.forEach(service => {
-        if (service.pattern.test(line) && !service.ready) {
-          service.ready = true;
-          if (!nextSpinner()) {
-            afterDocker();
-          }
+      containers.forEach(service => {
+        if (service.ready || !service.pattern.test(line)) {
+          return;
+        }
+        service.ready = true;
+        const notReady = updateReady();
+        if (notReady.length === 0) {
+          afterDocker();
         }
       });
     });
   });
-
-  // child.stderr.on('data', data => {
-  //   console.error(`stderr: ${data}`);
-  // });
 
   child.on('close', code => {
     process.exit(0);

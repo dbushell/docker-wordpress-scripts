@@ -53,3 +53,5 @@ wp --allow-root rewrite flush;
 echo "[005] - ✔";
 
 echo "[000] - ✔";
+
+exit 0;
