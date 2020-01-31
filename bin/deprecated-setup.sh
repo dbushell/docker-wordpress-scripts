@@ -29,11 +29,11 @@ case "${COMMAND}" in
   up)
     # mkdir -p "${ROOT}/wordpress";
     # touch "${ROOT}/wordpress/wp-config.php";
-    docker-compose -p $PROJECT_NAME -f ${ROOT}/docker-compose.yml up;
+    docker-compose -p $PROJECT_NAME -f ${ROOT}/config/docker-compose.yml up;
     ;;
 
   down)
-    docker-compose -p $PROJECT_NAME -f ${ROOT}/docker-compose.yml down;
+    docker-compose -p $PROJECT_NAME -f ${ROOT}/config/docker-compose.yml down;
     ;;
 
   *)

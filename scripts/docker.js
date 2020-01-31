@@ -6,7 +6,7 @@ function compose(command, sync = true) {
     '-p',
     appPkg.name,
     '-f',
-    `${ownPath}/docker-compose.yml`,
+    `${ownPath}/config/docker-compose.yml`,
     command
   ];
 
