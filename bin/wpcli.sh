@@ -18,12 +18,14 @@ wp core install \
 
 wp --allow-root core update;
 
-wp --allow-root  theme activate "twentytwenty";
+wp --allow-root theme activate "twentytwenty";
 
 WP_PLUGINS=$(wp --allow-root plugin list --status=inactive --field=name);
 [ ! -z "$WP_PLUGINS" ] && wp --allow-root plugin delete $WP_PLUGINS;
 
 WP_THEMES=$(wp --allow-root theme list --status=inactive --field=name);
 [ ! -z "$WP_THEMES" ] && wp --allow-root theme delete $WP_THEMES;
+
+wp --allow-root option update permalink_structure /%year%/%monthnum%/%postname%/;
 
 wp --allow-root rewrite flush;
