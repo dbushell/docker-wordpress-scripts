@@ -22,13 +22,7 @@ Install `docker-wordpress-scripts` to your project directory:
 npm install docker-wordpress-scripts --save
 ```
 
-By default DWS will use your package name for container/domain names:
-
-```json
-{
-  "name": "wpdemo"
-}
-```
+### commands
 
 ```sh
 npx dws
@@ -42,7 +36,7 @@ Show list of commands.
 npx dws init
 ```
 
-DWS will spin up new docker containers and install WordPress.
+DWS will spin up new docker containers and install WordPress. You'll be asked a few configuration values.
 
 Once successful you'll see:
 
