@@ -1,17 +1,21 @@
 {
-  "name": "wordpress-docker",
-  "version": "0.2.0",
-  "description": "",
+  "name": "docker-wordpress-scripts",
+  "version": "0.3.0",
+  "description": "Scripts to manage WordPress containers in Docker",
   "main": "index.js",
   "bin": {
-    "wordpress-docker": "index.js"
+    "dw-scripts": "index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/dbushell/wordpress-docker.git"
+    "url": "git+https://github.com/dbushell/docker-wordpress-scripts.git"
   },
   "author": "David Bushell <david@dbushell.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbushell/docker-wordpress-scripts/issues"
+  },
+  "homepage": "https://github.com/dbushell/docker-wordpress-scripts#readme",
   "dependencies": {
     "chalk": "^3.0.0",
     "cross-spawn": "^7.0.1",
