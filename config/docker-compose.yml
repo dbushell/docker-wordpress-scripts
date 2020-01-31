@@ -29,7 +29,7 @@ services:
     volumes:
       - ${PROJECT_ROOT}/wordpress:/var/www/html
       - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh
-      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: database:3306
