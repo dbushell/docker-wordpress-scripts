@@ -28,7 +28,7 @@ services:
       - '80'
     volumes:
       - ${PROJECT_ROOT}/wordpress:/var/www/html
-      - ../bin/wpcli.sh:/usr/local/bin/wpcli.sh
+      - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     restart: unless-stopped
     environment:

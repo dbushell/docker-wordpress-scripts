@@ -34,8 +34,4 @@ if (result.signal) {
   process.exit(1);
 }
 
-// if (result.status === 1) {
-//   console.log(result);
-// }
-
 process.exit(result.status);

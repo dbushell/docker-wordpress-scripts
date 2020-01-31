@@ -3,9 +3,22 @@ const spawn = require('cross-spawn');
 const ora = require('ora');
 const chalk = require('chalk');
 const init = require('./init');
+const installWP = require('./install-wp');
 const docker = require('./docker');
 const {appPkg, ownPath, appPath} = require('./config');
+
 init();
+
+async function afterDocker() {
+  await installWP();
+  console.log(
+    `\n🐵 ${chalk.green.bold('Success:')} ${chalk.green(
+      'WordPress is up and running!'
+    )}`
+  );
+  console.log(chalk.yellow(`➜ http://${appPkg.name}.localhost`));
+  process.exit(0);
+}
 
 const child = docker.compose('up', false);
 
@@ -70,30 +83,3 @@ child.stdout.on('data', data => {
 child.on('close', code => {
   process.exit(0);
 });
-
-function afterDocker() {
-  const env = [
-    'WP_TITLE="Demo One"',
-    'WP_ADMIN_USER=admin',
-    'WP_ADMIN_PASSWORD=password',
-    'WP_ADMIN_EMAIL=hello@example.com'
-  ];
-
-  const options = [
-    'exec',
-    '-ti',
-    ...env.reduce((e, v) => e.concat(['-e', v]), []),
-    `${appPkg.name}_wordpress_1`,
-    'wpcli.sh'
-  ];
-
-  spawn.sync(`docker`, options, {
-    stdio: 'inherit',
-    cwd: ownPath,
-    env: {
-      PATH: process.env.PATH
-    }
-  });
-
-  process.exit(0);
-}

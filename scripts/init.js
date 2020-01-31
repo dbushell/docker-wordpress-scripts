@@ -3,10 +3,6 @@ const chalk = require('chalk');
 const spawn = require('cross-spawn');
 const {appPath, appPkg, ownPath, ownPkg} = require('./config');
 
-
-/**
- * Test environment variables are set for spawn processes
- */
 function testEnv() {
   const testSh = path.resolve(__dirname, '../bin/test-env.sh');
   const testVar = 'HELLOWORLD';
@@ -27,7 +23,9 @@ function init() {
     console.log(chalk.red('Cannot read project `name` from package.json'));
     process.exit(1);
   }
-  console.log(chalk.green(`Project: ${chalk.bold(appPkg.name)}`));
+  console.log(
+    '🐹 ' + chalk.green(`${chalk.bold('Project:')} ${appPkg.name}\n`)
+  );
   testEnv();
 }
 
