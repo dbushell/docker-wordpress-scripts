@@ -23,9 +23,6 @@ function init() {
     console.log(chalk.red('Cannot read project `name` from package.json'));
     process.exit(1);
   }
-  console.log(
-    '🐹 ' + chalk.green(`${chalk.bold('Project:')} ${appPkg.name}\n`)
-  );
   testEnv();
 }
 

@@ -6,17 +6,22 @@ const init = require('./init');
 const installWP = require('./install-wp');
 const docker = require('./docker');
 const {appPkg, ownPath, appPath} = require('./config');
+const {logURL} = require('./dws-url');
 
 init();
+
+console.log(
+  '\n🐹 ' + chalk.green(`${chalk.bold('Project:')} ${appPkg.name}\n`)
+);
 
 async function afterDocker() {
   await installWP();
   console.log(
-    `\n🐵 ${chalk.green.bold('Success:')} ${chalk.green(
+    `\n🐹 ${chalk.green.bold('Success:')} ${chalk.green(
       'WordPress is up and running!'
     )}`
   );
-  console.log(chalk.yellow(`➜ http://${appPkg.name}.localhost`));
+  logURL();
   process.exit(0);
 }
 

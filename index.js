@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const chalk = require('chalk');
 const spawn = require('cross-spawn');
 const {appPath, ownPath} = require('./scripts/config');
@@ -10,19 +11,38 @@ if (appPath === ownPath) {
 
 const args = process.argv.slice(2);
 
-const commands = ['up', 'down', 'start', 'stop'];
+const commands = ['init', 'stop', 'start', 'destroy', 'eject', 'url'];
+
+const usage = `
+🐹 Docker WordPress Scripts
+
+  ${chalk.bold('Usage')}
+    npx dws <command>
+
+  ${chalk.bold('Commands')}
+    init     ${chalk.dim('- spin up a new project')}
+    stop     ${chalk.dim('- stop running containers')}
+    start    ${chalk.dim('- start existing containers')}
+    url      ${chalk.dim('- output the  *.localhost URL')}
+    destroy  ${chalk.dim('- stop and remove existing containers')}
+    eject    ${chalk.dim('- remove DWS dependency / add config files')}
+`;
 
 const command = args[0];
 
 if (!commands.includes(command)) {
-  console.log(chalk.red.bold(`Unknown command: "${command}"`));
+  console.log(usage);
   return;
 }
 
-const script = require.resolve(`./scripts/${command}.js`);
+const script = require.resolve(`./scripts/dws-${command}.js`);
 
 const result = spawn.sync('node', [script], {
-  stdio: 'inherit'
+  stdio: 'inherit',
+  env: {
+    ...process.env,
+    DWS_COMMAND: command
+  }
 });
 
 if (result.signal) {

@@ -1,10 +1,11 @@
 {
   "name": "docker-wordpress-scripts",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Scripts to manage WordPress containers in Docker",
   "main": "index.js",
   "bin": {
-    "dw-scripts": "index.js"
+    "docker-wordpress-scripts": "index.js",
+    "dws": "index.js"
   },
   "repository": {
     "type": "git",
