@@ -1,5 +1,10 @@
-const init = require('./init');
+const {dwsPre} = require('./dws-pre');
 
-init();
+function dwsEject() {
+  dwsPre();
+  console.log('The "eject" command is not yet implemented.')
+}
 
-console.log('The "eject" command is yet to be implemented.')
+if (process.env.DWS_COMMAND === 'eject') {
+  dwsEject();
+}

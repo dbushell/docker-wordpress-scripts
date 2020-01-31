@@ -1,6 +1,11 @@
-const init = require('./init');
+const {dwsPre} = require('./dws-pre');
 const docker = require('./docker');
 
-init();
+function dwsDestroy() {
+  dwsPre();
+  docker.compose('down');
+}
 
-docker.compose('down');
+if (process.env.DWS_COMMAND === 'destroy') {
+  dwsDestroy();
+}

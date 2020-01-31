@@ -1,9 +1,13 @@
-const init = require('./init');
 const docker = require('./docker');
-const {logURL} = require('./dws-url');
+const {dwsPre} = require('./dws-pre');
+const {dwsURL} = require('./dws-url');
 
-init();
+function dwsStart() {
+  dwsPre();
+  docker.compose('start');
+  dwsURL();
+}
 
-docker.compose('start');
-
-logURL();
+if (process.env.DWS_COMMAND === 'start') {
+  dwsStart();
+}

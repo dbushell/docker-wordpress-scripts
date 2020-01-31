@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const spawn = require('cross-spawn');
+const cross = require('cross-spawn');
 const {appPath, ownPath} = require('./scripts/config');
 
 if (appPath === ownPath) {
@@ -11,10 +11,10 @@ if (appPath === ownPath) {
 
 const args = process.argv.slice(2);
 
-const commands = ['init', 'stop', 'start', 'destroy', 'eject', 'url'];
+const commands = ['config', 'init', 'stop', 'start', 'destroy', 'eject', 'url'];
 
 const usage = `
-🐹 Docker WordPress Scripts
+🐹 ${chalk.bold('Docker WordPress Scripts')}
 
   ${chalk.bold('Usage')}
     npx dws <command>
@@ -37,7 +37,7 @@ if (!commands.includes(command)) {
 
 const script = require.resolve(`./scripts/dws-${command}.js`);
 
-const result = spawn.sync('node', [script], {
+const result = cross.sync('node', [script], {
   stdio: 'inherit',
   env: {
     ...process.env,

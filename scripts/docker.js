@@ -1,25 +1,26 @@
-const crossSpawn = require('cross-spawn');
-const {appPath, appPkg, ownPath, ownPkg} = require('./config');
+const cross = require('cross-spawn');
+const {appConf, appPath, ownPath} = require('./config');
 
 function compose(command, sync = true) {
+  const conf = appConf();
   const options = [
     '-p',
-    appPkg.name,
+    conf.name,
     '-f',
     `${ownPath}/config/docker-compose.yml`,
     command
   ];
 
-  const spawn = sync ? crossSpawn.sync : crossSpawn.spawn;
+  const spawn = sync ? cross.sync : cross.spawn;
 
   const docker = spawn(`docker-compose`, options, {
     stdio: sync ? 'inherit' : 'pipe',
     cwd: ownPath,
     env: {
       PATH: process.env.PATH,
-      PROJECT_NAME: appPkg.name,
       PROJECT_ROOT: appPath,
-      VIRTUAL_HOST: `${appPkg.name}.localhost`
+      PROJECT_NAME: conf.name,
+      PROJECT_HOST: conf.hostname
     }
   });
 

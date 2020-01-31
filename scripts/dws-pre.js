@@ -1,12 +1,12 @@
 const path = require('path');
 const chalk = require('chalk');
-const spawn = require('cross-spawn');
-const {appPath, appPkg, ownPath, ownPkg} = require('./config');
+const cross = require('cross-spawn');
+const {appPkg} = require('./config');
 
 function testEnv() {
   const testSh = path.resolve(__dirname, '../bin/test-env.sh');
   const testVar = 'HELLOWORLD';
-  const testSpawn = spawn.sync(testSh, [], {
+  const testSpawn = cross.sync(testSh, [], {
     env: {
       TEST_ENV_VAR: testVar
     }
@@ -18,12 +18,13 @@ function testEnv() {
   }
 }
 
-function init() {
-  if ('name' in appPkg === false) {
+function dwsPre() {
+  const pkg = appPkg();
+  if ('name' in pkg === false) {
     console.log(chalk.red('Cannot read project `name` from package.json'));
     process.exit(1);
   }
   testEnv();
 }
 
-module.exports = init;
+module.exports = {dwsPre};

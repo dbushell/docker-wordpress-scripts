@@ -1,6 +1,11 @@
-const init = require('./init');
 const docker = require('./docker');
+const {dwsPre} = require('./dws-pre');
 
-init();
+function dwsStop() {
+  dwsPre();
+  docker.compose('stop');
+}
 
-docker.compose('stop');
+if (process.env.DWS_COMMAND === 'stop') {
+  dwsStop();
+}

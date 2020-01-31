@@ -1,25 +1,51 @@
 const fs = require('fs');
 const path = require('path');
+const readPkg = require('read-pkg');
+const writePkg = require('write-pkg');
 
 const cwd = fs.realpathSync(process.cwd());
 const ownPath = path.resolve(__dirname, '../');
 const appPath = path.resolve(cwd, '.');
 
-function loadPkg(pkgPath) {
-  try {
-    const pkg = require(pkgPath);
-    return pkg;
-  } catch (err) {
-    return {};
+const ownPkg = () => readPkg.sync({cwd: ownPath, normalize: false});
+const appPkg = () => readPkg.sync({cwd: appPath, normalize: false});
+
+const validateName = value => /^[\w\d-]+$/.test(value);
+const validateHostName = value => /^[\w\d-]+.[\w\d-]+$/.test(value);
+
+function appConf(conf) {
+  const pkg = appPkg();
+  const defaults = {
+    name: pkg.name,
+    hostname: `${pkg.name}.localhost`,
+    title: `WordPress Demo`
+  };
+  conf = conf || pkg.dws;
+  if (typeof conf !== 'object') {
+    conf = {};
   }
+  conf = {...defaults, ...conf};
+  if (!validateName(conf.name)) {
+    conf.name = defaults.name;
+  }
+  if (!validateHostName(conf.hostname)) {
+    conf.hostname = defaults.hostname;
+  }
+  return conf;
 }
 
-const ownPkg = loadPkg(path.join(ownPath, 'package.json'));
-const appPkg = loadPkg(path.join(appPath, 'package.json'));
+function setAppConf(dws) {
+  dws = appConf(dws);
+  writePkg.sync(appPath, {...appPkg(), dws}, {normalize: false});
+}
 
 module.exports = {
   appPath,
   appPkg,
   ownPath,
-  ownPkg
+  ownPkg,
+  appConf,
+  setAppConf,
+  validateName,
+  validateHostName
 };

@@ -11,7 +11,7 @@ echo "[001] - ✔";
 echo "[002] - Installing WordPress";
 
 wp core install \
-    --url=${VIRTUAL_HOST} \
+    --url=${PROJECT_HOST} \
     --title="${WP_TITLE}" \
     --admin_user=${WP_ADMIN_USER} \
     --admin_password=${WP_ADMIN_PASSWORD} \
@@ -19,6 +19,10 @@ wp core install \
     --skip-email \
     --skip-plugins=hello,akismet \
     --allow-root;
+
+wp --allow-root option update siteurl ${PROJECT_HOST};
+wp --allow-root option update home ${PROJECT_HOST};
+wp --allow-root option update blogname "${WP_TITLE}";
 
 echo "[002] - ✔";
 

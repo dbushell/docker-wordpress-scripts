@@ -1,12 +1,13 @@
 const chalk = require('chalk');
-const {appPkg} = require('./config');
+const {appConf} = require('./config');
 
-function logURL() {
-  console.log(chalk.yellow(`➜ http://${appPkg.name}.localhost`));
+function dwsURL() {
+  const conf = appConf();
+  console.log(chalk.yellow(`➜ http://${conf.hostname}`));
 }
 
 if (process.env.DWS_COMMAND === 'url') {
-  logURL();
+  dwsURL();
 }
 
-module.exports = {logURL};
+module.exports = {dwsURL};
