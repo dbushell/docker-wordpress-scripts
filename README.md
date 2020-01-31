@@ -10,13 +10,13 @@ Follow [@dbushell](https://twitter.com/dbushell) for updates.
 
 [Docker](https://www.docker.com/) must be installed and running on your machine.
 
-Port `80` must be unbound for the proxy server to use.
+Port `80` must be unbound for the proxy server to work.
 
 ## Usage
 
 Run `npm init` if you don't have a `package.json`.
 
-Install `docker-wordpress-scripts` to your project directory:
+Install `docker-wordpress-scripts` to the project directory:
 
 ```sh
 npm install docker-wordpress-scripts --save
@@ -41,7 +41,7 @@ DWS will spin up new Docker containers and install WordPress. You'll be asked a 
 Once successful you'll see:
 
 ```
-🐵 Success: WordPress is up and running!
+🐹 Success: WordPress is up and running!
 ➜ http://wordpress.localhost
 ```
 
@@ -51,7 +51,7 @@ Once successful you'll see:
 npx dws stop
 ```
 
-Stop all running containers for this project.
+Stop all running containers for the project.
 
 ### start
 
@@ -59,14 +59,14 @@ Stop all running containers for this project.
 npx dws start
 ```
 
-Start all existing containers for this project.
+Start all existing containers for the project.
 
 ### url
 ```sh
 npx dws url
 ```
 
-Output the `*.localhost` URL for this project.
+Output the `*.localhost` URL for the project.
 
 ### destroy
 
@@ -74,7 +74,7 @@ Output the `*.localhost` URL for this project.
 npx dws destroy
 ```
 
-Stop and remove all containers for this project leaving no trace in Docker. The database and WordPress content directories will persist in your repo. Unless delete, the `init` command can restore the project.
+Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repo. Unless they are deleted the `init` command can restore the project.
 
 ### eject
 
@@ -82,7 +82,7 @@ Stop and remove all containers for this project leaving no trace in Docker. The 
 npx dws eject
 ```
 
-Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to your project directory. You can continue by using `docker-compose` in the terminal.
+Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to the project directory. You can continue by using `docker-compose` in the terminal.
 
 ## Credits / License
 
