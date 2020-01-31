@@ -8,7 +8,9 @@ Follow [@dbushell](https://twitter.com/dbushell) for updates.
 
 ## Requirements
 
-Ensure that [Docker](https://www.docker.com/) is installed and running on your machine. Port `80` must be unbound for the proxy server to use.
+[Docker](https://www.docker.com/) must be installed and running on your machine.
+
+Port `80` must be unbound for the proxy server to use.
 
 ## Usage
 
@@ -46,7 +48,7 @@ Once successful you'll see:
 
 ```
 🐵 Success: WordPress is up and running!
-➜ http://wpdemo2.localhost
+➜ http://wordpress.localhost
 ```
 
 ### stop
@@ -55,7 +57,7 @@ Once successful you'll see:
 npx dws stop
 ```
 
-Stop running containers for this project.
+Stop all running containers for this project.
 
 ### start
 
@@ -63,14 +65,14 @@ Stop running containers for this project.
 npx dws start
 ```
 
-Start existing containers for this project.
+Start all existing containers for this project.
 
 ### url
 ```sh
 npx dws url
 ```
 
-Output the `*.localhost` URL for the project.
+Output the `*.localhost` URL for this project.
 
 ### destroy
 
@@ -78,7 +80,7 @@ Output the `*.localhost` URL for the project.
 npx dws destroy
 ```
 
-Stop and remove all containers for this project leaving no trace in Docker. The database and WordPress content will persist in your repo so the `npx dws up` command will restore the project (you may need to reactive yout theme).
+Stop and remove all containers for this project leaving no trace in Docker. The database and WordPress content directories will persist in your repo. Unless delete, the `init` command can restore the project.
 
 ### eject
 
@@ -86,7 +88,7 @@ Stop and remove all containers for this project leaving no trace in Docker. The 
 npx dws eject
 ```
 
-Remove the DWS dependency. Ther is no going back! This adds a copy the `docker-compose.yml` and configuration files to your project directory. You can use `docker-compose` on the command line in future.
+Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to your project directory. You can continue by using `docker-compose` in the terminal.
 
 # Configuration
 
