@@ -84,6 +84,14 @@ npx dws eject
 
 Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to the project directory. You can continue by using `docker-compose` in the terminal.
 
+## Portainer
+
+An instance of [Portainer](https://www.portainer.io/) is also created behind the NGINX proxy. To configure visit:
+
+```
+http://portainer.localhost
+```
+
 ## Credits / License
 
 MIT licensed | Copyright © 2020 [David Bushell](https://dbushell.com) | [@dbushell](https://twitter.com/dbushell)

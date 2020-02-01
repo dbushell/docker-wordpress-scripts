@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const readPkg = require('read-pkg');
 const writePkg = require('write-pkg');
+const stripAnsi = require('strip-ansi');
 
 const cwd = fs.realpathSync(process.cwd());
 const ownPath = path.resolve(__dirname, '../');
@@ -12,6 +13,24 @@ const appPkg = () => readPkg.sync({cwd: appPath, normalize: false});
 
 const validateName = value => /^[\w\d-]+$/.test(value);
 const validateHostName = value => /^[\w\d-]+.[\w\d-]+$/.test(value);
+
+const logStream = fs.createWriteStream(path.resolve(appPath, '_dws.log'), {
+  flags: 'a'
+});
+
+function logLine(line) {
+  line = stripAnsi(line).trim();
+  if (!line.length || /^\s+$/.test(line)) {
+    return '';
+  }
+  try {
+    logStream.write(`[${new Date().toISOString()}] - ${line}\n`);
+  } catch (err) {
+    // Shrug ...
+    console.log(err);
+  }
+  return line;
+}
 
 function appConf(conf) {
   const pkg = appPkg();
@@ -47,5 +66,7 @@ module.exports = {
   appConf,
   setAppConf,
   validateName,
-  validateHostName
+  validateHostName,
+  logStream,
+  logLine
 };

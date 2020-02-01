@@ -1,17 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const cross = require('cross-spawn');
-const stripAnsi = require('strip-ansi');
 const ora = require('ora');
+const {logLine} = require('./config');
 
 const {ownPath, appPath} = require('./config');
 
 function dockerExec(container, script, env) {
   return new Promise((resolve, reject) => {
-    const log = fs.createWriteStream(path.resolve(appPath, 'docker.log'), {
-      flags: 'a'
-    });
-
     const options = ['exec', '-t', ...(env || []), container, script];
 
     const child = cross.spawn(`docker`, options, {
@@ -27,8 +23,8 @@ function dockerExec(container, script, env) {
     child.stdout.on('data', data => {
       const lines = data.toString().split(/\r?\n/);
       lines.forEach(line => {
-        line = stripAnsi(line).trim();
-        if (!line.length || /^\s+$/.test(line)) {
+        line = logLine(line);
+        if (!line.length) {
           return;
         }
         const found = line.match(/^\[\d{3}] - (.+?)$/);
@@ -40,14 +36,11 @@ function dockerExec(container, script, env) {
           } else {
             spinner.start(found[1]);
           }
-        } else {
-          log.write(`[${new Date().toISOString()}] - ${line}\n`);
         }
       });
     });
 
     child.on('close', code => {
-      log.end();
       if (code === 0) {
         return resolve(code);
       }

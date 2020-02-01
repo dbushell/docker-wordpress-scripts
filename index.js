@@ -2,7 +2,7 @@
 
 const chalk = require('chalk');
 const cross = require('cross-spawn');
-const {appPath, ownPath} = require('./scripts/config');
+const {appPath, ownPath, logStream} = require('./scripts/config');
 
 if (appPath === ownPath) {
   console.log(chalk.red.bold(`Cannot run in own repository!`));
@@ -45,6 +45,8 @@ const result = cross.sync('node', [script], {
   }
 });
 
+logStream.end();
+
 if (result.signal) {
   if (result.signal === 'SIGKILL') {
     console.log(chalk.red.bold(`Process was killed (SIGKILL)`));
@@ -53,5 +55,6 @@ if (result.signal) {
   }
   process.exit(1);
 }
+
 
 process.exit(result.status);

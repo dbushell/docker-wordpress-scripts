@@ -1,9 +1,10 @@
 const path = require('path');
 const ora = require('ora');
 const chalk = require('chalk');
+const stripAnsi = require('strip-ansi');
 const docker = require('./docker');
 const installWP = require('./install-wp');
-const {appConf, appPath, ownPath} = require('./config');
+const {appConf, appPath, ownPath, logLine} = require('./config');
 const {dwsPre} = require('./dws-pre');
 const {dwsConfig} = require('./dws-config');
 const {dwsURL} = require('./dws-url');
@@ -39,7 +40,7 @@ async function dwsInit() {
     {
       ready: false,
       name: 'database',
-      pattern: new RegExp('database(.*?)mysqld: ready for connections.')
+      pattern: new RegExp('mysql(.*?)mysqld: ready for connections.')
     },
     {
       ready: false,
@@ -77,7 +78,10 @@ async function dwsInit() {
   child.stdout.on('data', data => {
     const lines = data.toString().split(/\r?\n/);
     lines.forEach(line => {
-      line = line.trim();
+      line = logLine(line);
+      if (!line.length) {
+        return;
+      }
       containers.forEach(service => {
         if (service.ready || !service.pattern.test(line)) {
           return;

@@ -14,7 +14,7 @@ async function installWP() {
 
   env = env.reduce((e, v) => e.concat(['-e', v]), []);
 
-  const container = `${conf.name}_wordpress_1`;
+  const container = `${conf.name}_wordpress`;
   const script = 'install-wp.sh';
 
   await dockerExec(container, script, env);

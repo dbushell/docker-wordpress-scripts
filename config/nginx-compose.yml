@@ -1,0 +1,44 @@
+version: '3.5'
+
+networks:
+  dws_nginx:
+    name: dws_nginx
+
+services:
+  nginx-proxy:
+    container_name: dws_nginx
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - nginx_certs:/etc/nginx/certs
+      - nginx_dhparam:/etc/nginx/dhparam
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx:/etc/nginx/conf.d
+    # environment:
+      # DEFAULT_HOST: portainer.localhost
+    networks:
+      - dws_nginx
+
+  portainer:
+    container_name: dws_portainer
+    image: portainer/portainer
+    restart: always
+    depends_on:
+      - nginx-proxy
+    expose:
+      - '9000'
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      VIRTUAL_HOST: portainer.localhost
+      VIRTUAL_PORT: 9000
+    networks:
+      - dws_nginx
+
+volumes:
+  nginx_certs:
+  nginx_dhparam:
+  portainer_data:

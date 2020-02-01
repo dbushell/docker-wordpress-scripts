@@ -1,17 +1,18 @@
-version: '3'
+version: '3.5'
 
 networks:
   backend:
   frontend:
     external:
-      name: nginx_proxy
+      name: dws_nginx
 
 services:
   database:
+    container_name: '${PROJECT_NAME}_mysql'
     image: mysql:5.7
+    restart: unless-stopped
     volumes:
       - ${PROJECT_ROOT}/_database:/var/lib/mysql
-    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: wordpress
@@ -21,16 +22,17 @@ services:
       - backend
 
   wordpress:
+    container_name: '${PROJECT_NAME}_wordpress'
     image: wordpress:latest
+    restart: unless-stopped
     depends_on:
       - database
     expose:
       - '80'
     volumes:
       - ${PROJECT_ROOT}/wordpress:/var/www/html
-      - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh
-      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
-    restart: unless-stopped
+      - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh:ro
+      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
       WORDPRESS_DB_HOST: database:3306
       WORDPRESS_DB_NAME: wordpress
@@ -44,12 +46,13 @@ services:
       - frontend
 
   phpmyadmin:
+    container_name: '${PROJECT_NAME}_phpmyadmin'
     image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
     depends_on:
       - database
     expose:
       - '80'
-    restart: unless-stopped
     environment:
       PMA_HOST: database:3306
       PMA_USER: wordpress
