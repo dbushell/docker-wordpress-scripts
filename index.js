@@ -28,7 +28,15 @@ const usage = `
     eject    ${chalk.dim('- remove DWS dependency / add config files')}
 `;
 
-const command = args[0];
+let command = args[0];
+
+if (command === 'up') {
+  command = 'init';
+}
+
+if (command === 'down') {
+  command = 'destroy';
+}
 
 if (!commands.includes(command)) {
   console.log(usage);
