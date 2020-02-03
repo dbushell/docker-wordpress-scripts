@@ -2,9 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const cross = require('cross-spawn');
 const ora = require('ora');
-const {logLine} = require('./config');
-
-const {ownPath, appPath} = require('./config');
+const {ownPath, appPath, logLine} = require('./config');
 
 function dockerExec(container, script, env) {
   return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const cross = require('cross-spawn');
+const execa = require('execa');
 const {appPath, ownPath, logStream} = require('./scripts/config');
 
 if (appPath === ownPath) {
@@ -11,7 +11,7 @@ if (appPath === ownPath) {
 
 const args = process.argv.slice(2);
 
-const commands = ['config', 'init', 'stop', 'start', 'destroy', 'eject', 'url'];
+const commands = ['config', 'init', 'stop', 'start', 'destroy', 'eject', 'url', 'up', 'down'];
 
 const usage = `
 🐹 ${chalk.bold('Docker WordPress Scripts')}
@@ -30,12 +30,12 @@ const usage = `
 
 let command = args[0];
 
-if (command === 'up') {
-  command = 'init';
+if (command === 'init') {
+  command = 'up';
 }
 
-if (command === 'down') {
-  command = 'destroy';
+if (command === 'destroy') {
+  command = 'down';
 }
 
 if (!commands.includes(command)) {
@@ -45,24 +45,20 @@ if (!commands.includes(command)) {
 
 const script = require.resolve(`./scripts/dws-${command}.js`);
 
-const result = cross.sync('node', [script], {
-  stdio: 'inherit',
-  env: {
-    ...process.env,
-    DWS_COMMAND: command
+async function run() {
+  const result = execa('node', [script], {
+    stdio: 'inherit',
+    env: {
+      DWS_COMMAND: command
+    }
+  });
+  try {
+    await result;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    logStream.end();
   }
-});
-
-logStream.end();
-
-if (result.signal) {
-  if (result.signal === 'SIGKILL') {
-    console.log(chalk.red.bold(`Process was killed (SIGKILL)`));
-  } else if (result.signal === 'SIGTERM') {
-    console.log(chalk.red.bold(`Process was killed (SIGTERM)`));
-  }
-  process.exit(1);
 }
 
-
-process.exit(result.status);
+run();

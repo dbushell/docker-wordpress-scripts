@@ -15,7 +15,7 @@ services:
       - nginx_certs:/etc/nginx/certs
       - nginx_dhparam:/etc/nginx/dhparam
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
     # environment:
       # DEFAULT_HOST: portainer.localhost
     networks:

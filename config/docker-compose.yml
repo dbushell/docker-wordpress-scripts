@@ -7,7 +7,7 @@ networks:
       name: dws_nginx
 
 services:
-  database:
+  mysql:
     container_name: '${PROJECT_NAME}_mysql'
     image: mysql:5.7
     restart: unless-stopped
@@ -26,7 +26,7 @@ services:
     image: wordpress:latest
     restart: unless-stopped
     depends_on:
-      - database
+      - mysql
     expose:
       - '80'
     volumes:
@@ -34,7 +34,7 @@ services:
       - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh:ro
       - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
-      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_HOST: mysql:3306
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: password
@@ -50,11 +50,11 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: unless-stopped
     depends_on:
-      - database
+      - mysql
     expose:
       - '80'
     environment:
-      PMA_HOST: database:3306
+      PMA_HOST: mysql:3306
       PMA_USER: wordpress
       PMA_PASSWORD: password
       VIRTUAL_HOST: 'pma.${PROJECT_HOST}'

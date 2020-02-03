@@ -1,28 +1,24 @@
 const Listr = require('listr');
 const docker = require('./docker');
 const {dwsPre} = require('./dws-pre');
-const {dwsURL} = require('./dws-url');
 
-async function dwsStart() {
+async function dwsDown() {
   dwsPre();
-
-  const {subprocess, emitter} = docker.composeEvents({command: 'start'});
+  const {subprocess, emitter} = docker.composeEvents({command: 'down'});
 
   const tasks = [
     {
-      title: 'Starting MySQL',
+      title: 'Removing MySQL',
       task: ctx => {
         return new Promise((resolve, reject) => {
           emitter.on('line', line => {
-            if (ctx.mysql) {
-              return;
-            }
             if (/mysql(.+?)done$/.test(line)) {
               ctx.mysql = true;
               resolve();
             }
-            if (/mysql(.+?)failed$/.test(line)) {
-              ctx.mysql = true;
+          });
+          subprocess.on('close', code => {
+            if (!ctx.mysql) {
               reject(new Error('MySQL container not initiated'));
             }
           });
@@ -30,19 +26,17 @@ async function dwsStart() {
       }
     },
     {
-      title: 'Starting WordPress',
+      title: 'Removing WordPress',
       task: ctx => {
         return new Promise((resolve, reject) => {
           emitter.on('line', line => {
-            if (ctx.wordpress) {
-              return;
-            }
             if (/wordpress(.+?)done$/.test(line)) {
               ctx.wordpress = true;
               resolve();
             }
-            if (/wordpress(.+?)failed$/.test(line)) {
-              ctx.wordpress = true;
+          });
+          subprocess.on('close', code => {
+            if (!ctx.wordpress) {
               reject(new Error('WordPress container not initiated'));
             }
           });
@@ -50,19 +44,17 @@ async function dwsStart() {
       }
     },
     {
-      title: 'Starting phpMyAdmin',
+      title: 'Removing phpMyAdmin',
       task: ctx => {
         return new Promise((resolve, reject) => {
           emitter.on('line', line => {
-            if (ctx.phpmyadmin) {
-              return;
-            }
             if (/phpmyadmin(.+?)done$/.test(line)) {
               ctx.phpmyadmin = true;
               resolve();
             }
-            if (/wordpress(.+?)failed$/.test(line)) {
-              ctx.phpmyadmin = true;
+          });
+          subprocess.on('close', code => {
+            if (!ctx.phpmyadmin) {
               reject(new Error('phpMyAdmin container not initiated'));
             }
           });
@@ -78,12 +70,11 @@ async function dwsStart() {
 
   try {
     await subprocess;
-    dwsURL();
   } catch (err) {}
 }
 
-if (process.env.DWS_COMMAND === 'start') {
-  dwsStart();
+if (process.env.DWS_COMMAND === 'destroy') {
+  dwsDown();
 }
 
-module.exports = {dwsStart};
+module.exports = {dwsDown};
