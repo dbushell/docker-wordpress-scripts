@@ -53,7 +53,7 @@ function appConf(conf) {
   conf.env = {
     PROJECT_ROOT: appPath,
     PROJECT_NAME: conf.name,
-    PROJECT_HOST: `http://${conf.hostname}`,
+    PROJECT_HOST: `${conf.hostname}`,
     WP_TITLE: `${conf.title}`,
     WP_ADMIN_USER: 'admin',
     WP_ADMIN_PASSWORD: 'password',

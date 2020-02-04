@@ -14,7 +14,7 @@ async function dwsEject() {
   const container = `${conf.name}_wordpress`;
   const script = 'eject-wp.sh';
 
-  const execEnv = ['-e', 'PROJECT_HOST=http://localhost:8080'];
+  const execEnv = ['-e', 'PROJECT_HOST=localhost:8080'];
 
   const {subprocess, emitter} = docker.execEvents({container, script, execEnv});
 
