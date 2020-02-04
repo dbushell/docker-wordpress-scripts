@@ -1,5 +1,7 @@
 # Docker WordPress Scripts
 
+[![npm version](https://badge.fury.io/js/docker-wordpress-scripts.svg)](https://badge.fury.io/js/docker-wordpress-scripts)
+
 DWS is a small set of scripts to manage WordPress containers in Docker. It uses an NGINX proxy for `*.localhost` domains to avoid manual port assignment.
 
 **This is work in progress and unstable!**
