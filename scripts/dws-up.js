@@ -1,34 +1,19 @@
 const chalk = require('chalk');
 const Listr = require('listr');
 const docker = require('./docker');
-const installWP = require('./install-wp');
 const {appConf} = require('./config');
 const {dwsPre} = require('./dws-pre');
 const {dwsConfig} = require('./dws-config');
+const {dwsInstallWP} = require('./dws-install-wp');
 const {dwsURL} = require('./dws-url');
 
-async function beforeDocker() {
+async function dwsUp() {
   dwsPre();
   const conf = appConf();
   console.log(
     '\n🐹 ' + chalk.green(`${chalk.bold('Project:')} ${conf.name}\n`)
   );
   await dwsConfig();
-}
-
-async function afterDocker() {
-  await installWP();
-  console.log(
-    `\n🐹 ${chalk.green.bold('Success:')} ${chalk.green(
-      'WordPress is up and running!'
-    )}`
-  );
-  dwsURL();
-  process.exit(0);
-}
-
-async function dwsUp() {
-  await beforeDocker();
 
   const {subprocess, emitter} = docker.composeEvents({command: 'up'});
 
@@ -135,7 +120,13 @@ async function dwsUp() {
 
   try {
     await list.run();
-    await afterDocker();
+    await dwsInstallWP();
+    console.log(
+      `\n🐹 ${chalk.green.bold('Success:')} ${chalk.green(
+        'WordPress is up and running!'
+      )}`
+    );
+    dwsURL();
     process.exit(0);
   } catch (err) {}
 }

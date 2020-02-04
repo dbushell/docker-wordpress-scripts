@@ -73,7 +73,7 @@ async function dwsDown() {
   } catch (err) {}
 }
 
-if (process.env.DWS_COMMAND === 'destroy') {
+if (process.env.DWS_COMMAND === 'down') {
   dwsDown();
 }
 
