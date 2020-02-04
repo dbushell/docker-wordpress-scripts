@@ -37,11 +37,11 @@ function composeEvents(config) {
 
   const conf = appConf();
 
-  if (typeof file !== 'String') {
+  if (typeof file !== 'string') {
     file = `${ownPath}/config/docker-compose.yml`;
   }
 
-  if (typeof project !== 'String') {
+  if (typeof project !== 'string') {
     project = conf.name;
   }
 

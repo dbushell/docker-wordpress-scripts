@@ -22,7 +22,9 @@ const commands = [
   'url',
   'up',
   'down',
-  'version'
+  'version',
+  'proxy-up',
+  'proxy-down'
 ];
 
 const usage = `

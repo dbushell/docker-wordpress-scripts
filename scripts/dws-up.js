@@ -3,12 +3,15 @@ const Listr = require('listr');
 const docker = require('./docker');
 const {dwsPre} = require('./dws-pre');
 const {dwsConfig} = require('./dws-config');
+const {dwsProxyUp} = require('./dws-proxy-up');
 const {dwsInstallWP} = require('./dws-install-wp');
 const {dwsURL} = require('./dws-url');
 
 async function dwsUp() {
   // await dwsPre();
   await dwsConfig();
+
+  await dwsProxyUp();
 
   const {subprocess, emitter} = docker.composeEvents({command: 'up'});
 
