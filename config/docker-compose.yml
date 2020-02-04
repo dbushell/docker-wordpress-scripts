@@ -30,6 +30,7 @@ services:
     expose:
       - '80'
     volumes:
+      - wordpress_data:/var/www/html
       - ${PROJECT_ROOT}/wordpress:/var/www/html/wp-content
       - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh:ro
       - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
@@ -62,3 +63,6 @@ services:
     networks:
       - backend
       - frontend
+
+volumes:
+  wordpress_data:
