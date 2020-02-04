@@ -45,9 +45,7 @@ function composeEvents(config) {
 
   if (!env) {
     env = {
-      PROJECT_ROOT: appPath,
-      PROJECT_NAME: conf.name,
-      PROJECT_HOST: conf.hostname
+      ...conf.env
     };
   }
 

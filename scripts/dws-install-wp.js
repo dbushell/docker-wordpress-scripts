@@ -5,18 +5,13 @@ const {appConf} = require('./config');
 async function dwsInstallWP() {
   const conf = appConf();
 
-  let env = [
-    `PROJECT_HOST=http://${conf.hostname}`,
-    `WP_TITLE=${conf.title}`,
-    'WP_ADMIN_USER=admin',
-    'WP_ADMIN_PASSWORD=password',
-    `WP_ADMIN_EMAIL=admin@${conf.hostname}`
-  ];
-
-  env = env.reduce((e, v) => e.concat(['-e', v]), []);
-
   const container = `${conf.name}_wordpress`;
   const script = 'install-wp.sh';
+
+  let env = [];
+  for (let [key, value] of Object.entries(conf.env)) {
+    env = env.concat(['-e', `${key}=${value}`]);
+  }
 
   const {subprocess, emitter} = docker.execEvents({container, script, env});
 

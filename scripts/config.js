@@ -50,6 +50,15 @@ function appConf(conf) {
   if (!validateHostName(conf.hostname)) {
     conf.hostname = defaults.hostname;
   }
+  conf.env = {
+    PROJECT_ROOT: appPath,
+    PROJECT_NAME: conf.name,
+    PROJECT_HOST: `http://${conf.hostname}`,
+    WP_TITLE: `${conf.title}`,
+    WP_ADMIN_USER: 'admin',
+    WP_ADMIN_PASSWORD: 'password',
+    WP_ADMIN_EMAIL: `admin@${conf.hostname}`
+  };
   return conf;
 }
 
