@@ -45,7 +45,7 @@ Options:
   --version, -v  Show version number
 ```
 
-### init
+### `up`
 
 ```sh
 npx dws up
@@ -60,7 +60,7 @@ Once successful you'll see:
 ➜ http://wordpress.localhost
 ```
 
-### stop
+### `stop`
 
 ```sh
 npx dws stop
@@ -68,7 +68,7 @@ npx dws stop
 
 Stop all running containers for the project.
 
-### start
+### `start`
 
 ```sh
 npx dws start
@@ -76,14 +76,14 @@ npx dws start
 
 Start all existing containers for the project.
 
-### url
+### `url`
 ```sh
 npx dws url
 ```
 
 Output the `*.localhost` URL for the project.
 
-### down
+### `down`
 
 ```sh
 npx dws down
@@ -91,7 +91,7 @@ npx dws down
 
 Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repo. Unless they are deleted the `init` command can restore the project.
 
-### eject
+### `eject`
 
 ```sh
 npx dws eject
