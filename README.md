@@ -34,10 +34,10 @@ Usage: dws <command> [options]
 
 Commands:
   dws up [proxy]    spin up a new project
-  dws down [proxy]  stop and remove existing containers
   dws stop          stop running containers
   dws start         start existing containers
   dws url           output the *.localhost URL
+  dws down [proxy]  stop and remove existing containers
   dws eject         replace DWS dependency with config files
 
 Options:
