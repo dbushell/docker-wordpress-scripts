@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const yargs = require('yargs');
 const chalk = require('chalk');
 const execa = require('execa');
 const {appPath, ownPath, logStream} = require('./scripts/config');
@@ -9,57 +10,8 @@ if (appPath === ownPath) {
   process.exit(1);
 }
 
-const args = process.argv.slice(2);
-
-const commands = [
-  'config',
-  'init',
-  'install-wp',
-  'stop',
-  'start',
-  'destroy',
-  'eject',
-  'url',
-  'up',
-  'down',
-  'version',
-  'proxy-up',
-  'proxy-down'
-];
-
-const usage = `
-🐹 ${chalk.bold('Docker WordPress Scripts')}
-
-  ${chalk.bold('Usage')}
-    npx dws <command>
-
-  ${chalk.bold('Commands')}
-    init     ${chalk.dim('- spin up a new project')}
-    stop     ${chalk.dim('- stop running containers')}
-    start    ${chalk.dim('- start existing containers')}
-    url      ${chalk.dim('- output the  *.localhost URL')}
-    destroy  ${chalk.dim('- stop and remove existing containers')}
-    eject    ${chalk.dim('- remove DWS dependency / add config files')}
-`;
-
-let command = args[0];
-
-if (command === 'init') {
-  command = 'up';
-}
-
-if (command === 'destroy') {
-  command = 'down';
-}
-
-if (!commands.includes(command)) {
-  console.log(usage);
-  return;
-}
-
-const script = require.resolve(`./scripts/dws-${command}.js`);
-
-async function run() {
+async function run(command) {
+  const script = require.resolve(`./scripts/dws-${command}.js`);
   const result = execa('node', [script], {
     stdio: 'inherit',
     env: {
@@ -69,10 +21,53 @@ async function run() {
   try {
     await result;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   } finally {
     logStream.end();
   }
 }
 
-run();
+var argv = yargs
+  .usage('Usage: $0 <command> [options]')
+  .command({
+    command: ['up [proxy]', 'init'],
+    describe: 'spin up a new project',
+    builder: {
+      proxy: {
+        type: 'boolean',
+        default: false
+      }
+    },
+    handler: argv => {
+      if (argv.proxy) {
+        run('proxy-up');
+      } else {
+        run('up');
+      }
+    }
+  })
+  .command({
+    command: ['down [proxy]', 'destroy'],
+    describe: 'stop and remove existing containers',
+    builder: {
+      proxy: {
+        type: 'boolean',
+        default: false
+      }
+    },
+    handler: argv => {
+      if (argv.proxy) {
+        run('proxy-down');
+      } else {
+        run('down');
+      }
+    }
+  })
+  .command('stop', 'stop running containers', {}, () => run('stop'))
+  .command('start', 'start existing containers', {}, () => run('start'))
+  .command('url', 'output the *.localhost URL', {}, () => run('url'))
+  .command('eject', 'remove DWS dependency / add config files', {}, () =>
+    run('eject')
+  )
+  .strict(true)
+  .demandCommand().argv;
