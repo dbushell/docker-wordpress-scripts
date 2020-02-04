@@ -97,7 +97,7 @@ Stop and remove all containers for the project leaving no trace in Docker. The d
 npx dws eject
 ```
 
-Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to the project directory. You can continue by using `docker-compose` in the terminal.
+Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to the project directory. You can continue by using `docker-compose` in the terminal. WordPress will move to `localhost:8080`.
 
 ## Portainer
 

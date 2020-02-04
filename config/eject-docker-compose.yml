@@ -3,14 +3,15 @@ version: '3.5'
 networks:
   backend:
   frontend:
-    external:
-      name: dws_nginx
+    driver: bridge
 
 services:
   mysql:
-    container_name: '${PROJECT_NAME}_mysql'
+    container_name: '${PROJECT_NAME}_ejected_mysql'
     image: mariadb
     restart: unless-stopped
+    ports:
+      - '3306:3306'
     volumes:
       - ${PROJECT_ROOT}/_database:/var/lib/mysql
     environment:
@@ -22,18 +23,16 @@ services:
       - backend
 
   wordpress:
-    container_name: '${PROJECT_NAME}_wordpress'
+    container_name: '${PROJECT_NAME}_ejected_wordpress'
     image: wordpress:latest
     restart: unless-stopped
     depends_on:
       - mysql
-    expose:
-      - '80'
+    ports:
+      - '8080:80'
     volumes:
-      - wordpress_data:/var/www/html
+      - ejected_wordpress_data:/var/www/html
       - ${PROJECT_ROOT}/wordpress:/var/www/html/wp-content
-      - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh:ro
-      - ../bin/eject-wp.sh:/usr/local/bin/eject-wp.sh:ro
       - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
       WORDPRESS_DB_HOST: mysql:3306
@@ -41,29 +40,25 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DEBUG: 1
-      VIRTUAL_HOST: '${PROJECT_HOST}'
-      VIRTUAL_PORT: 80
     networks:
       - backend
       - frontend
 
   phpmyadmin:
-    container_name: '${PROJECT_NAME}_phpmyadmin'
+    container_name: '${PROJECT_NAME}_ejected_phpmyadmin'
     image: phpmyadmin/phpmyadmin
     restart: unless-stopped
     depends_on:
       - mysql
-    expose:
-      - '80'
+    ports:
+      - '8081:80'
     environment:
       PMA_HOST: mysql:3306
       PMA_USER: wordpress
       PMA_PASSWORD: password
-      VIRTUAL_HOST: 'pma.${PROJECT_HOST}'
-      VIRTUAL_PORT: 80
     networks:
       - backend
       - frontend
 
 volumes:
-  wordpress_data:
+  ejected_wordpress_data:
