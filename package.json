@@ -9,11 +9,10 @@
   "author": "David Bushell <david@dbushell.com>",
   "license": "MIT",
   "bin": {
-    "docker-wordpress-scripts": "index.js",
-    "dws": "index.js"
+    "docker-wordpress-scripts": "bin/cli.js",
+    "dws": "bin/cli.js"
   },
   "files": [
-    "index.js",
     "bin/*",
     "config/**/*",
     "scripts/*"

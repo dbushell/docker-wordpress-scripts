@@ -3,7 +3,7 @@
 const yargs = require('yargs');
 const chalk = require('chalk');
 const execa = require('execa');
-const {appPath, ownPath, logStream} = require('./scripts/config');
+const {appPath, ownPath, logStream} = require('../scripts/config');
 
 if (appPath === ownPath) {
   console.log(chalk.red.bold(`Cannot run in own repository!`));
@@ -11,7 +11,7 @@ if (appPath === ownPath) {
 }
 
 async function run(command) {
-  const script = require.resolve(`./scripts/dws-${command}.js`);
+  const script = require.resolve(`../scripts/dws-${command}.js`);
   const result = execa('node', [script], {
     stdio: 'inherit',
     env: {
