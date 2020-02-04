@@ -11,7 +11,19 @@ if (appPath === ownPath) {
 
 const args = process.argv.slice(2);
 
-const commands = ['config', 'init', 'install-wp', 'stop', 'start', 'destroy', 'eject', 'url', 'up', 'down'];
+const commands = [
+  'config',
+  'init',
+  'install-wp',
+  'stop',
+  'start',
+  'destroy',
+  'eject',
+  'url',
+  'up',
+  'down',
+  'version'
+];
 
 const usage = `
 🐹 ${chalk.bold('Docker WordPress Scripts')}

@@ -22,6 +22,7 @@ wp --allow-root option update blogname "${WP_TITLE}";
 
 echo "[✔IWP]";
 
+wp --allow-root option delete core_updater.lock;
 wp --allow-root core update;
 
 echo "[✔UWP]";

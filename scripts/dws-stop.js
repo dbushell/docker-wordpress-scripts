@@ -4,7 +4,7 @@ const {dwsPre} = require('./dws-pre');
 const {dwsURL} = require('./dws-url');
 
 async function dwsStop() {
-  dwsPre();
+  await dwsPre();
 
   const {subprocess, emitter} = docker.composeEvents({command: 'stop'});
 

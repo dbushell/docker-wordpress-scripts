@@ -3,7 +3,7 @@ const docker = require('./docker');
 const {dwsPre} = require('./dws-pre');
 
 async function dwsDown() {
-  dwsPre();
+  await dwsPre();
   const {subprocess, emitter} = docker.composeEvents({command: 'down'});
 
   const tasks = [

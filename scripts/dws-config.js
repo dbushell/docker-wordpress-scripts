@@ -12,7 +12,7 @@ const {
 } = require('./config');
 
 async function dwsConfig() {
-  dwsPre();
+  await dwsPre();
 
   const exists = fs.existsSync(path.resolve(appPath, 'wordpress'));
 

@@ -10,7 +10,7 @@ async function dwsInstallWP() {
     `WP_TITLE=${conf.title}`,
     'WP_ADMIN_USER=admin',
     'WP_ADMIN_PASSWORD=password',
-    'WP_ADMIN_EMAIL=hello@example.com'
+    `WP_ADMIN_EMAIL=admin@${conf.hostname}`
   ];
 
   env = env.reduce((e, v) => e.concat(['-e', v]), []);

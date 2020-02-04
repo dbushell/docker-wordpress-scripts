@@ -1,7 +1,7 @@
 const {dwsPre} = require('./dws-pre');
 
 function dwsEject() {
-  dwsPre();
+  await dwsPre();
   console.log('The "eject" command is not yet implemented.')
 }
 

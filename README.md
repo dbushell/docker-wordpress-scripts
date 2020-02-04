@@ -22,6 +22,8 @@ Install `docker-wordpress-scripts` to the project directory:
 npm install docker-wordpress-scripts --save
 ```
 
+Or use the `--global` flag to use `dws` commands anywhere without `npx`.
+
 ### commands
 
 ```sh

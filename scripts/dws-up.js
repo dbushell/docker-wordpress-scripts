@@ -1,18 +1,13 @@
 const chalk = require('chalk');
 const Listr = require('listr');
 const docker = require('./docker');
-const {appConf} = require('./config');
 const {dwsPre} = require('./dws-pre');
 const {dwsConfig} = require('./dws-config');
 const {dwsInstallWP} = require('./dws-install-wp');
 const {dwsURL} = require('./dws-url');
 
 async function dwsUp() {
-  dwsPre();
-  const conf = appConf();
-  console.log(
-    '\n🐹 ' + chalk.green(`${chalk.bold('Project:')} ${conf.name}\n`)
-  );
+  // await dwsPre();
   await dwsConfig();
 
   const {subprocess, emitter} = docker.composeEvents({command: 'up'});
