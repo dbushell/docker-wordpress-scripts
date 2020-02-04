@@ -12,11 +12,10 @@ Follow [@dbushell](https://twitter.com/dbushell) for updates.
 
 ## Requirements
 
-[Docker](https://www.docker.com/) must be installed and running on your machine.
+* [Docker](https://www.docker.com/) must be installed and running on your machine.
+* Port `80` must be unbound for the proxy server to work.
 
-Port `80` must be unbound for the proxy server to work.
-
-## Usage
+## Install
 
 Run `npm init` if you don't have a `package.json`.
 
@@ -28,18 +27,28 @@ npm install docker-wordpress-scripts --save
 
 Or use the `--global` flag to use `dws` commands anywhere without `npx`.
 
-### commands
+## Usage
 
-```sh
-npx dws
 ```
+Usage: dws <command> [options]
 
-Show list of commands.
+Commands:
+  dws up [proxy]    spin up a new project
+  dws down [proxy]  stop and remove existing containers
+  dws stop          stop running containers
+  dws start         start existing containers
+  dws url           output the *.localhost URL
+  dws eject         replace DWS dependency with config files
+
+Options:
+  --help, -h     Show help
+  --version, -v  Show version number
+```
 
 ### init
 
 ```sh
-npx dws init
+npx dws up
 ```
 
 DWS will spin up new Docker containers and install WordPress. You'll be asked a few configuration values.
@@ -74,10 +83,10 @@ npx dws url
 
 Output the `*.localhost` URL for the project.
 
-### destroy
+### down
 
 ```sh
-npx dws destroy
+npx dws down
 ```
 
 Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repo. Unless they are deleted the `init` command can restore the project.

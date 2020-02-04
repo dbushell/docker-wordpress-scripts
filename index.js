@@ -66,7 +66,7 @@ var argv = yargs
   .command('stop', 'stop running containers', {}, () => run('stop'))
   .command('start', 'start existing containers', {}, () => run('start'))
   .command('url', 'output the *.localhost URL', {}, () => run('url'))
-  .command('eject', 'remove DWS dependency / add config files', {}, () =>
+  .command('eject', 'replace DWS dependency with config files', {}, () =>
     run('eject')
   )
   .alias('version', 'v')
