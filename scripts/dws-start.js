@@ -10,7 +10,7 @@ async function dwsStart() {
 
   const tasks = [
     {
-      title: 'Starting MySQL',
+      title: 'Starting Database',
       task: ctx => {
         return new Promise((resolve, reject) => {
           emitter.on('line', line => {
@@ -23,7 +23,7 @@ async function dwsStart() {
             }
             if (/mysql(.+?)failed$/.test(line)) {
               ctx.mysql = true;
-              reject(new Error('MySQL container not initiated'));
+              reject(new Error('Database container not initiated'));
             }
           });
         });

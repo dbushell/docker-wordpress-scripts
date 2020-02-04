@@ -31,7 +31,7 @@ function docker(config) {
 }
 
 function composeEvents(config) {
-  let {command: composeCmd, env, file, project} = config;
+  let {command: composeCmd, args: composeArgs, env, file, project} = config;
 
   const conf = appConf();
 
@@ -51,7 +51,7 @@ function composeEvents(config) {
     };
   }
 
-  const args = ['-p', project, '-f', file, composeCmd];
+  const args = ['-p', project, '-f', file, composeCmd, ...(composeArgs || [])];
   const command = 'docker-compose';
   const emitter = new EventEmitter();
 

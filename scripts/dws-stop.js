@@ -16,7 +16,7 @@ async function dwsStop() {
 
   const tasks = [
     {
-      title: 'Stopping MySQL',
+      title: 'Stopping Database',
       task: ctx => {
         return new Promise((resolve, reject) => {
           emitter.on('line', line => {
@@ -29,7 +29,7 @@ async function dwsStop() {
             }
             if (/mysql(.+?)failed$/.test(line)) {
               ctx.mysql = true;
-              reject(new Error('MySQL container not running'));
+              reject(new Error('Database container not running'));
             }
           });
         });

@@ -97,7 +97,7 @@ async function dwsUp() {
   const list = new Listr(
     [
       {
-        title: 'Initiating MySQL',
+        title: 'Initiating Database',
         task: () => mysqlTask
       },
       {

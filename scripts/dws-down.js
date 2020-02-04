@@ -4,11 +4,14 @@ const {dwsPre} = require('./dws-pre');
 
 async function dwsDown() {
   await dwsPre();
-  const {subprocess, emitter} = docker.composeEvents({command: 'down'});
+  const {subprocess, emitter} = docker.composeEvents({
+    command: 'down',
+    args: ['-v']
+  });
 
   const tasks = [
     {
-      title: 'Removing MySQL',
+      title: 'Removing Database',
       task: ctx => {
         return new Promise((resolve, reject) => {
           emitter.on('line', line => {
@@ -19,7 +22,7 @@ async function dwsDown() {
           });
           subprocess.on('close', code => {
             if (!ctx.mysql) {
-              reject(new Error('MySQL container not initiated'));
+              reject(new Error('Database container not initiated'));
             }
           });
         });
