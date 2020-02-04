@@ -2,17 +2,26 @@
   "name": "docker-wordpress-scripts",
   "version": "0.5.0",
   "description": "Scripts to manage WordPress containers in Docker",
-  "main": "index.js",
-  "bin": {
-    "docker-wordpress-scripts": "index.js",
-    "dws": "index.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dbushell/docker-wordpress-scripts.git"
   },
   "author": "David Bushell <david@dbushell.com>",
   "license": "MIT",
+  "bin": {
+    "docker-wordpress-scripts": "index.js",
+    "dws": "index.js"
+  },
+  "files": [
+    "index.js",
+    "bin/*",
+    "config/**/*",
+    "scripts/*"
+  ],
+  "keywords": [
+    "docker",
+    "wordpress"
+  ],
   "bugs": {
     "url": "https://github.com/dbushell/docker-wordpress-scripts/issues"
   },
