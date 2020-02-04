@@ -1,3 +1,5 @@
+![Docker WordPress Scripts](/.github/dws-logo.svg)
+
 # Docker WordPress Scripts
 
 [![npm version](https://badge.fury.io/js/docker-wordpress-scripts.svg)](https://badge.fury.io/js/docker-wordpress-scripts)
