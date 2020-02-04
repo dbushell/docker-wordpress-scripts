@@ -69,5 +69,7 @@ var argv = yargs
   .command('eject', 'remove DWS dependency / add config files', {}, () =>
     run('eject')
   )
+  .alias('version', 'v')
+  .alias('help', 'h')
   .strict(true)
   .demandCommand().argv;

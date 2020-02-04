@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const EventEmitter = require('events');
 const execa = require('execa');
 const stripAnsi = require('strip-ansi');
