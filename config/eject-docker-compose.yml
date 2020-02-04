@@ -1,8 +1,8 @@
 version: '3.5'
 
 networks:
-  backend:
-  frontend:
+  ejected_backend:
+  ejected_frontend:
     driver: bridge
 
 services:
@@ -20,7 +20,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: password
     networks:
-      - backend
+      - ejected_backend
 
   wordpress:
     container_name: '${PROJECT_NAME}_ejected_wordpress'
@@ -41,8 +41,8 @@ services:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DEBUG: 1
     networks:
-      - backend
-      - frontend
+      - ejected_backend
+      - ejected_frontend
 
   phpmyadmin:
     container_name: '${PROJECT_NAME}_ejected_phpmyadmin'
@@ -57,8 +57,8 @@ services:
       PMA_USER: wordpress
       PMA_PASSWORD: password
     networks:
-      - backend
-      - frontend
+      - ejected_backend
+      - ejected_frontend
 
 volumes:
   ejected_wordpress_data:

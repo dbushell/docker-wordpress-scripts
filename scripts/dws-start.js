@@ -78,12 +78,15 @@ async function dwsStart() {
 
   try {
     await subprocess;
-    dwsURL();
   } catch (err) {}
 }
 
 if (process.env.DWS_COMMAND === 'start') {
-  dwsStart();
+  const run = async () => {
+    await dwsStart();
+    dwsURL();
+  };
+  run();
 }
 
 module.exports = {dwsStart};

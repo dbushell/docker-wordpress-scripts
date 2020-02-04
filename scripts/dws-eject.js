@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const Listr = require('listr');
 const docker = require('./docker');
 const {appPath, ownPath, appConf} = require('./config');
 const {dwsStart} = require('./dws-start');
@@ -8,15 +9,13 @@ const {dwsDown} = require('./dws-down');
 
 async function dwsEject() {
   await dwsStart();
-  await dwsDown();
   const conf = appConf();
 
-  const container = `${conf.name}_wordpress`;
-  const script = 'eject-wp.sh';
-
-  const execEnv = ['-e', 'PROJECT_HOST=localhost:8080'];
-
-  const {subprocess, emitter} = docker.execEvents({container, script, execEnv});
+  const {subprocess, emitter} = docker.execEvents({
+    container: `${conf.name}_wordpress`,
+    script: 'eject-wp.sh',
+    env: ['-e', 'PROJECT_HOST=localhost:8080']
+  });
 
   const tasks = [
     {
@@ -32,14 +31,12 @@ async function dwsEject() {
     }
   ];
 
-  try {
-    const list = new Listr(tasks, {exitOnError: false});
-    await list.run();
-  } catch (err) {
-    console.log(err);
-  }
+  const list = new Listr(tasks, {exitOnError: false});
+  await list.run();
 
   await subprocess;
+
+  await dwsDown();
 
   let composeFile = fs
     .readFileSync(path.resolve(ownPath, 'config/eject-docker-compose.yml'))
