@@ -4,9 +4,11 @@
 
 [![npm version](https://badge.fury.io/js/docker-wordpress-scripts.svg)](https://badge.fury.io/js/docker-wordpress-scripts)
 
-DWS is a small set of scripts to manage WordPress containers in Docker. It uses an NGINX proxy for `*.localhost` domains to avoid manual port assignment.
+DWS is a small set of scripts to manage WordPress containers in Docker. It uses an [nginx-proxy](https://github.com/jwilder/nginx-proxy/) for `*.localhost` domains to avoid manual port assignment.
 
 **This is work in progress and unstable!**
+
+This is somewhat of a [personal project](https://dbushell.com/2020/02/07/docker-wordpress-portless-localhost-domains/) but it solves a fairly common problem so I'm sharing it for others to use and adapt.
 
 Follow [@dbushell](https://twitter.com/dbushell) for updates and feedback.
 
@@ -113,6 +115,12 @@ The hostname & port for WordPress and phpMyAdmin moves to respectively:
 localhost:8080
 localhost:8081
 ```
+
+## Using the NGINX Proxy
+
+If you want to set up a reverse proxy without the help of DWS take a look at the [compose files in this directory](https://github.com/dbushell/docker-wordpress-scripts/tree/master/config) and [nginx-proxy](https://github.com/jwilder/nginx-proxy/) by _Jason Wilder_.
+
+The proxy set up by DWS is not exclusive and can be used for other projects. Use the external Docker network `dws_nginx` with `VIRTUAL_HOST` and `VIRTUAL_PORT` environment options for the service.
 
 ## Portainer
 
