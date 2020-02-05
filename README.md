@@ -8,7 +8,7 @@ DWS is a small set of scripts to manage WordPress containers in Docker. It uses 
 
 **This is work in progress and unstable!**
 
-Follow [@dbushell](https://twitter.com/dbushell) for updates.
+Follow [@dbushell](https://twitter.com/dbushell) for updates and feedback.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ Follow [@dbushell](https://twitter.com/dbushell) for updates.
 
 Run `npm init` if you don't have a `package.json`.
 
-Install `docker-wordpress-scripts` to the project directory:
+Install `docker-wordpress-scripts` to the project repository:
 
 ```sh
 npm install docker-wordpress-scripts --save
@@ -60,6 +60,12 @@ Once successful you'll see:
 ➜ http://wordpress.localhost
 ```
 
+The `wp-content` directory is mounted to `wordpress` in the project repository. The entire database is mounted to `_database` (advisable to add to `.gitignore`).
+
+[phpMyAdmin](https://www.phpmyadmin.net/) is also set up on the `pma` subdomain.
+
+Use `dws up --proxy` to spin up the NGINX proxy. This happens automatically when a project is set up.
+
 ### `stop`
 
 ```sh
@@ -89,7 +95,9 @@ Output the `*.localhost` URL for the project.
 npx dws down
 ```
 
-Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repo. Unless they are deleted the `init` command can restore the project.
+Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repository. Unless they are deleted the `init` command can restore the project.
+
+Use `dws down --proxy` to stop and remove the NGINX proxy.
 
 ### `eject`
 
@@ -97,7 +105,14 @@ Stop and remove all containers for the project leaving no trace in Docker. The d
 npx dws eject
 ```
 
-Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to the project directory. You can continue by using `docker-compose` in the terminal. WordPress will move to `localhost:8080`.
+Remove the DWS dependency. There is no going back! This adds a copy of `docker-compose.yml` and other config files to the project repository. You can continue by using `docker-compose` in the terminal.
+
+The hostname & port for WordPress and phpMyAdmin moves to respectively:
+
+```
+localhost:8080
+localhost:8081
+```
 
 ## Portainer
 
