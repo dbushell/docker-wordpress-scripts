@@ -64,7 +64,14 @@ function appConf(conf) {
 
 function setAppConf(dws) {
   dws = appConf(dws);
-  writePkg.sync(appPath, {...appPkg(), dws}, {normalize: false});
+  writePkg.sync(
+    appPath,
+    {
+      ...appPkg(),
+      dws: {name: dws.name, hostname: dws.hostname, title: dws.title}
+    },
+    {normalize: false}
+  );
 }
 
 module.exports = {

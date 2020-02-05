@@ -19,7 +19,7 @@ async function dwsConfig() {
   if (exists) {
     console.log(
       `${chalk.red(`Project already initiated?`)} Run '${chalk.bold(
-        'npx dws destroy'
+        'npx dws down'
       )}' first to avoid conflicts\n`
     );
   }
