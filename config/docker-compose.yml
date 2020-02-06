@@ -55,6 +55,8 @@ services:
       - mysql
     expose:
       - '80'
+    volumes:
+      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
       PMA_HOST: mysql:3306
       PMA_USER: wordpress
