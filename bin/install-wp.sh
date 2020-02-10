@@ -18,6 +18,9 @@ wp core install \
     --skip-plugins=hello,akismet \
     --allow-root;
 
+wp --allow-root config set WP_DEBUG true --raw --type="constant"
+wp --allow-root config set WP_DEBUG_LOG true --raw --type="constant"
+
 wp --allow-root option update siteurl ${PROJECT_HOST};
 wp --allow-root option update home ${PROJECT_HOST};
 wp --allow-root option update blogname "${WP_TITLE}";
