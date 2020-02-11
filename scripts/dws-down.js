@@ -1,9 +1,28 @@
+const chalk = require('chalk');
 const Listr = require('listr');
+const {Confirm} = require('enquirer');
 const docker = require('./docker');
 const {dwsPre} = require('./dws-pre');
 
 async function dwsDown() {
   await dwsPre();
+
+  console.log(chalk.red.bold(`⚡ This will stop and remove all containers`));
+  let response = false;
+  const promp = new Confirm(
+    {
+      message: "Are you sure?"
+    }
+  );
+  try {
+    response = await promp.run();
+  } catch (err) {
+    process.exit(0);
+  }
+  if (response !== true) {
+    process.exit(0);
+  }
+
   const {subprocess, emitter} = docker.composeEvents({
     command: 'down',
     args: ['-v']

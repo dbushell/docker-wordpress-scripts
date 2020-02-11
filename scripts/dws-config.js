@@ -17,10 +17,9 @@ async function dwsConfig() {
   const exists = fs.existsSync(path.resolve(appPath, 'wordpress'));
 
   if (exists) {
+    console.log(chalk.red.bold(`⚡ Project already initialised?`));
     console.log(
-      `${chalk.red(`Project already initiated?`)} Run '${chalk.bold(
-        'npx dws down'
-      )}' first to avoid conflicts\n`
+      `Run '${chalk.bold('npx dws down')}' first to avoid conflicts\n`
     );
   }
 
