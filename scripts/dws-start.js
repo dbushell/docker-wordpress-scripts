@@ -1,7 +1,7 @@
-const Listr = require('listr');
-const docker = require('./docker');
-const {dwsPre} = require('./dws-pre');
-const {dwsURL} = require('./dws-url');
+import Listr from 'listr';
+import docker from './docker.js';
+import {dwsPre} from './dws-pre.js';
+import {dwsURL} from './dws-url.js';
 
 async function dwsStart() {
   await dwsPre();
@@ -11,9 +11,9 @@ async function dwsStart() {
   const tasks = [
     {
       title: 'Starting Database',
-      task: ctx => {
+      task: (ctx) => {
         return new Promise((resolve, reject) => {
-          emitter.on('line', line => {
+          emitter.on('line', (line) => {
             if (ctx.mysql) {
               return;
             }
@@ -31,9 +31,9 @@ async function dwsStart() {
     },
     {
       title: 'Starting WordPress',
-      task: ctx => {
+      task: (ctx) => {
         return new Promise((resolve, reject) => {
-          emitter.on('line', line => {
+          emitter.on('line', (line) => {
             if (ctx.wordpress) {
               return;
             }
@@ -51,9 +51,9 @@ async function dwsStart() {
     },
     {
       title: 'Starting phpMyAdmin',
-      task: ctx => {
+      task: (ctx) => {
         return new Promise((resolve, reject) => {
-          emitter.on('line', line => {
+          emitter.on('line', (line) => {
             if (ctx.phpmyadmin) {
               return;
             }
@@ -89,4 +89,4 @@ if (process.env.DWS_COMMAND === 'start') {
   run();
 }
 
-module.exports = {dwsStart};
+export {dwsStart};

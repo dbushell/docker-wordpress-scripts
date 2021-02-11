@@ -1,11 +1,11 @@
-const chalk = require('chalk');
-const Listr = require('listr');
-const docker = require('./docker');
-const {dwsPre} = require('./dws-pre');
-const {ownPath} = require('./config');
+import chalk from 'chalk';
+import Listr from 'listr';
+import docker from './docker.js';
+import {dwsPre} from './dws-pre.js';
+import {ownPath} from './config.js';
 
 async function dwsProxyUp() {
-  await dwsPre();
+  await dwsPre({isGlobal: true});
 
   const {subprocess, emitter} = docker.composeEvents({
     command: 'up',
@@ -19,7 +19,7 @@ async function dwsProxyUp() {
         title: 'Initiating NGINX',
         task: () =>
           new Promise((resolve, reject) => {
-            emitter.on('line', line => {
+            emitter.on('line', (line) => {
               if (/nginx(.+?)(up-to-date|done)$/.test(line)) {
                 resolve();
               }
@@ -30,7 +30,7 @@ async function dwsProxyUp() {
         title: 'Initiating Portainer',
         task: () =>
           new Promise((resolve, reject) => {
-            emitter.on('line', line => {
+            emitter.on('line', (line) => {
               if (/portainer(.+?)(up-to-date|done)$/.test(line)) {
                 resolve();
               }
@@ -63,4 +63,4 @@ if (process.env.DWS_COMMAND === 'proxy-up') {
   run();
 }
 
-module.exports = {dwsProxyUp};
+export {dwsProxyUp};

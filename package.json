@@ -1,11 +1,12 @@
 {
   "name": "docker-wordpress-scripts",
-  "version": "0.8.10",
+  "version": "0.9.0",
   "description": "Scripts to manage WordPress containers in Docker",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dbushell/docker-wordpress-scripts.git"
   },
+  "type": "module",
   "author": "David Bushell <david@dbushell.com>",
   "license": "MIT",
   "bin": {
@@ -26,13 +27,13 @@
   },
   "homepage": "https://github.com/dbushell/docker-wordpress-scripts#readme",
   "dependencies": {
-    "chalk": "^3.0.0",
-    "enquirer": "^2.3.4",
-    "execa": "^4.0.0",
+    "chalk": "^4.1.0",
+    "enquirer": "^2.3.6",
+    "execa": "^5.0.0",
     "listr": "^0.14.3",
     "read-pkg": "^5.2.0",
     "strip-ansi": "^6.0.0",
     "write-pkg": "^4.0.0",
-    "yargs": "^15.1.0"
+    "yargs": "^16.2.0"
   }
 }

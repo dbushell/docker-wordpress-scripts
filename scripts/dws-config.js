@@ -1,15 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const {prompt} = require('enquirer');
-const {dwsPre} = require('./dws-pre');
-const {
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import enquirer from 'enquirer';
+import {dwsPre} from './dws-pre.js';
+import {
   appPath,
   appConf,
   setAppConf,
   validateName,
   validateHostName
-} = require('./config');
+} from './config.js';
 
 async function dwsConfig() {
   await dwsPre();
@@ -27,13 +27,13 @@ async function dwsConfig() {
 
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await prompt([
+      const response = await enquirer.prompt([
         {
           type: 'input',
           name: 'name',
           initial: conf.name,
           message: 'Project name',
-          validate: value => {
+          validate: (value) => {
             if (!validateName(value)) {
               return 'Project name can only contain letters, numbers, hyphens, and underscores';
             }
@@ -45,7 +45,7 @@ async function dwsConfig() {
           name: 'hostname',
           initial: conf.hostname,
           message: 'Project hostname',
-          validate: value => {
+          validate: (value) => {
             if (!validateHostName(value)) {
               return 'Project hostname can only contain letters, numbers, hyphens, and underscores';
             }
@@ -57,7 +57,7 @@ async function dwsConfig() {
           name: 'title',
           initial: conf.title,
           message: 'Blog name',
-          validate: value => value.length && !/^\s+$/.test(value)
+          validate: (value) => value.length && !/^\s+$/.test(value)
         }
       ]);
 
@@ -77,4 +77,4 @@ if (process.env.DWS_COMMAND === 'config') {
   run();
 }
 
-module.exports = {dwsConfig};
+export {dwsConfig};

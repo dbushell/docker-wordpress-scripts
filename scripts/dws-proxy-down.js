@@ -1,11 +1,10 @@
-const chalk = require('chalk');
-const Listr = require('listr');
-const docker = require('./docker');
-const {dwsPre} = require('./dws-pre');
-const {ownPath} = require('./config');
+import Listr from 'listr';
+import docker from './docker.js';
+import {dwsPre} from './dws-pre.js';
+import {ownPath} from './config.js';
 
 async function dwsProxyDown() {
-  await dwsPre();
+  await dwsPre({isGlobal: true});
 
   const {subprocess, emitter} = docker.composeEvents({
     command: 'down',
@@ -16,15 +15,15 @@ async function dwsProxyDown() {
   const tasks = [
     {
       title: 'Removing NGINX',
-      task: ctx => {
+      task: (ctx) => {
         return new Promise((resolve, reject) => {
-          emitter.on('line', line => {
+          emitter.on('line', (line) => {
             if (/nginx(.+?)done$/.test(line)) {
               ctx.nginx = true;
               resolve();
             }
           });
-          subprocess.on('close', code => {
+          subprocess.on('close', (code) => {
             if (!ctx.nginx) {
               reject(new Error('NGINX container not initiated'));
             }
@@ -34,15 +33,15 @@ async function dwsProxyDown() {
     },
     {
       title: 'Removing Portainer',
-      task: ctx => {
+      task: (ctx) => {
         return new Promise((resolve, reject) => {
-          emitter.on('line', line => {
+          emitter.on('line', (line) => {
             if (/portainer(.+?)done$/.test(line)) {
               ctx.portainer = true;
               resolve();
             }
           });
-          subprocess.on('close', code => {
+          subprocess.on('close', (code) => {
             if (!ctx.portainer) {
               reject(new Error('Portainer container not initiated'));
             }
@@ -66,4 +65,4 @@ if (process.env.DWS_COMMAND === 'proxy-down') {
   dwsProxyDown();
 }
 
-module.exports = {dwsProxyDown};
+export {dwsProxyDown};

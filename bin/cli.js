@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-const yargs = require('yargs');
-const chalk = require('chalk');
-const execa = require('execa');
-const {appPath, ownPath, logStream} = require('../scripts/config');
+import path from 'path';
+import yargs from 'yargs';
+import {hideBin} from 'yargs/helpers';
+import chalk from 'chalk';
+import execa from 'execa';
+import {appPath, ownPath, logStream} from '../scripts/config.js';
 
 if (appPath === ownPath) {
   console.log(chalk.red.bold(`Cannot run in own repository!`));
@@ -11,7 +13,7 @@ if (appPath === ownPath) {
 }
 
 async function run(command) {
-  const script = require.resolve(`../scripts/dws-${command}.js`);
+  const script = path.resolve(ownPath, `scripts/dws-${command}.js`);
   const result = execa('node', [script], {
     stdio: 'inherit',
     env: {
@@ -27,7 +29,7 @@ async function run(command) {
   }
 }
 
-var argv = yargs
+yargs(hideBin(process.argv))
   .usage('Usage: $0 <command> [options]')
   .command({
     command: ['up [proxy]', 'init'],
@@ -38,7 +40,7 @@ var argv = yargs
         default: false
       }
     },
-    handler: argv => {
+    handler: (argv) => {
       if (argv.proxy) {
         run('proxy-up');
       } else {
@@ -55,7 +57,7 @@ var argv = yargs
         default: false
       }
     },
-    handler: argv => {
+    handler: (argv) => {
       if (argv.proxy) {
         run('proxy-down');
       } else {

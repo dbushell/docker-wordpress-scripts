@@ -1,6 +1,6 @@
-const Listr = require('listr');
-const docker = require('./docker');
-const {appConf} = require('./config');
+import Listr from 'listr';
+import docker from './docker.js';
+import {appConf} from './config.js';
 
 async function dwsInstallWP() {
   const conf = appConf();
@@ -18,60 +18,67 @@ async function dwsInstallWP() {
   const tasks = [
     {
       title: 'Installing WP-CLI',
-      task: () => new Promise((resolve, reject) => {
-        emitter.on('line', line => {
-          if (line === '[✔CLI]') {
-            resolve();
-          }
-        });
-      })
+      task: () =>
+        new Promise((resolve, reject) => {
+          emitter.on('line', (line) => {
+            if (line === '[✔CLI]') {
+              resolve();
+            }
+          });
+        })
     },
     {
       title: 'Installing WordPress',
-      task: () => new Promise((resolve, reject) => {
-        emitter.on('line', line => {
-          if (line === '[✔IWP]') {
-            resolve();
-          }
-        });
-      })
+      task: () =>
+        new Promise((resolve, reject) => {
+          emitter.on('line', (line) => {
+            if (line === '[✔IWP]') {
+              resolve();
+            }
+          });
+        })
     },
     {
       title: 'Updating core',
-      task: () => new Promise((resolve, reject) => {
-        emitter.on('line', line => {
-          if (line === '[✔UWP]') {
-            resolve();
-          }
-        });
-      })
+      task: () =>
+        new Promise((resolve, reject) => {
+          emitter.on('line', (line) => {
+            if (line === '[✔UWP]') {
+              resolve();
+            }
+          });
+        })
     },
     {
       title: 'Configuring theme and plugins',
-      task: () => new Promise((resolve, reject) => {
-        emitter.on('line', line => {
-          if (line === '[✔CTP]') {
-            resolve();
-          }
-        });
-      })
+      task: () =>
+        new Promise((resolve, reject) => {
+          emitter.on('line', (line) => {
+            if (line === '[✔CTP]') {
+              resolve();
+            }
+          });
+        })
     },
     {
       title: 'Setting permalink structure',
-      task: () => new Promise((resolve, reject) => {
-        emitter.on('line', line => {
-          if (line === '[✔SPS]') {
-            resolve();
-          }
-        });
-      })
+      task: () =>
+        new Promise((resolve, reject) => {
+          emitter.on('line', (line) => {
+            if (line === '[✔SPS]') {
+              resolve();
+            }
+          });
+        })
     }
   ];
 
   try {
     const list = new Listr(tasks, {exitOnError: false});
     await list.run();
-  } catch (err) {console.log(err)}
+  } catch (err) {
+    console.log(err);
+  }
 
   try {
     await subprocess;
@@ -82,4 +89,4 @@ if (process.env.DWS_COMMAND === 'install-wp') {
   dwsInstallWP();
 }
 
-module.exports = {dwsInstallWP};
+export {dwsInstallWP};

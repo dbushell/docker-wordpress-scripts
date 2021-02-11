@@ -1,11 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const Listr = require('listr');
-const docker = require('./docker');
-const {appPath, ownPath, appConf} = require('./config');
-const {dwsStart} = require('./dws-start');
-const {dwsDown} = require('./dws-down');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import Listr from 'listr';
+import docker from './docker.js';
+import {appPath, ownPath, appConf} from './config.js';
+import {dwsStart} from './dws-start.js';
+import {dwsDown} from './dws-down.js';
 
 async function dwsEject() {
   await dwsStart();
@@ -22,7 +22,7 @@ async function dwsEject() {
       title: 'Updating WordPress URL options',
       task: () =>
         new Promise((resolve, reject) => {
-          emitter.on('line', line => {
+          emitter.on('line', (line) => {
             if (line === '[✔EJT]') {
               resolve();
             }

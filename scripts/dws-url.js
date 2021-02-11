@@ -1,5 +1,5 @@
-const chalk = require('chalk');
-const {appConf} = require('./config');
+import chalk from 'chalk';
+import {appConf} from './config.js';
 
 function dwsURL() {
   const conf = appConf();
@@ -11,4 +11,4 @@ if (process.env.DWS_COMMAND === 'url') {
   dwsURL();
 }
 
-module.exports = {dwsURL};
+export {dwsURL};

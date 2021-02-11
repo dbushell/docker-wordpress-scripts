@@ -1,10 +1,10 @@
-const path = require('path');
-const chalk = require('chalk');
-const execa = require('execa');
-const {appPkg} = require('./config');
+import path from 'path';
+import chalk from 'chalk';
+import execa from 'execa';
+import {ownPath, appPkg, ownPkg} from './config.js';
 
 async function testEnv() {
-  const testSh = path.resolve(__dirname, '../bin/test-env.sh');
+  const testSh = path.resolve(ownPath, 'bin/test-env.sh');
   const testVar = 'HELLOWORLD';
   const {stdout: testOut} = await execa(testSh, [], {
     env: {
@@ -17,13 +17,13 @@ async function testEnv() {
   }
 }
 
-async function dwsPre() {
+async function dwsPre({isGlobal} = {}) {
   const pkg = appPkg();
-  if ('name' in pkg === false) {
+  if (!isGlobal && 'name' in pkg === false) {
     console.log(chalk.red('Cannot read project `name` from package.json'));
     process.exit(1);
   }
   await testEnv();
 }
 
-module.exports = {dwsPre};
+export {dwsPre};

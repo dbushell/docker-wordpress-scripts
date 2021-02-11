@@ -1,1 +1,9 @@
-config/nginx/default.conf
+/*
+!.github
+!.gitignore
+!LICENSE
+!package.json
+!README.md
+!bin
+!config
+!scripts

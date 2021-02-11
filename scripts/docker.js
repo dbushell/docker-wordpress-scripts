@@ -1,7 +1,7 @@
-const EventEmitter = require('events');
-const execa = require('execa');
-const stripAnsi = require('strip-ansi');
-const {appConf, appPath, ownPath, logLine} = require('./config');
+import EventEmitter from 'events';
+import execa from 'execa';
+import stripAnsi from 'strip-ansi';
+import {appConf, appPath, ownPath, logLine} from './config.js';
 
 function docker(config) {
   const {args, command, env, emitter} = config;
@@ -14,9 +14,9 @@ function docker(config) {
   });
 
   if (emitter) {
-    subprocess.all.on('data', data => {
+    subprocess.all.on('data', (data) => {
       const lines = data.toString().split(/\r?\n/);
-      lines.forEach(line => {
+      lines.forEach((line) => {
         line = stripAnsi(line).trim();
         if (!line.length || /^\s+$/.test(line)) {
           return '';
@@ -75,8 +75,4 @@ function execEvents(config) {
   return {emitter, subprocess: docker({args, emitter, command})};
 }
 
-module.exports = {
-  docker,
-  composeEvents,
-  execEvents
-};
+export default {docker, composeEvents, execEvents};

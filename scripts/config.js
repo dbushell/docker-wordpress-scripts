@@ -1,20 +1,37 @@
-const fs = require('fs');
-const path = require('path');
-const readPkg = require('read-pkg');
-const writePkg = require('write-pkg');
-const stripAnsi = require('strip-ansi');
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import readPkg from 'read-pkg';
+import writePkg from 'write-pkg';
+import stripAnsi from 'strip-ansi';
 
 const cwd = fs.realpathSync(process.cwd());
-const ownPath = path.resolve(__dirname, '../');
+const ownPath = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '../'
+);
 const appPath = path.resolve(cwd, '.');
 
-const ownPkg = () => readPkg.sync({cwd: ownPath, normalize: false});
-const appPkg = () => readPkg.sync({cwd: appPath, normalize: false});
+const ownPkg = () => {
+  try {
+    return readPkg.sync({cwd: ownPath, normalize: false});
+  } catch {
+    return {};
+  }
+};
 
-const validateName = value => /^[\w\d-]+$/.test(value);
-const validateHostName = value => /^[\w\d-]+.[\w\d-]+$/.test(value);
+const appPkg = () => {
+  try {
+    return readPkg.sync({cwd: appPath, normalize: false});
+  } catch {
+    return {};
+  }
+};
 
-const logStream = fs.createWriteStream(path.resolve(appPath, '_dws.log'), {
+const validateName = (value) => /^[\w\d-]+$/.test(value);
+const validateHostName = (value) => /^[\w\d-]+.[\w\d-]+$/.test(value);
+
+const logStream = fs.createWriteStream(path.resolve(ownPath, '_dws.log'), {
   flags: 'a'
 });
 
@@ -74,7 +91,7 @@ function setAppConf(dws) {
   );
 }
 
-module.exports = {
+export {
   appPath,
   appPkg,
   ownPath,
