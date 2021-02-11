@@ -1,6 +1,6 @@
 {
   "name": "docker-wordpress-scripts",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Scripts to manage WordPress containers in Docker",
   "repository": {
     "type": "git",
@@ -16,7 +16,10 @@
   "files": [
     "bin/*",
     "config/**/*",
-    "scripts/*"
+    "scripts/*",
+    "package.json",
+    "README.md",
+    "LICENSE"
   ],
   "keywords": [
     "docker",
