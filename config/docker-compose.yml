@@ -1,10 +1,10 @@
-version: '3.5'
+version: '3'
 
 networks:
   backend:
   frontend:
     external:
-      name: dws_nginx
+      name: traefik
 
 services:
   mysql:

@@ -4,7 +4,7 @@
 
 [![npm version](https://badge.fury.io/js/docker-wordpress-scripts.svg)](https://badge.fury.io/js/docker-wordpress-scripts)
 
-DWS is a small set of scripts to manage WordPress containers in Docker. It uses an [nginx-proxy](https://github.com/jwilder/nginx-proxy/) for `*.localhost` domains to avoid manual port assignment.
+DWS is a small set of scripts to manage WordPress containers in Docker. It uses a [Traefik docker network](https://github.com/dbushell/docker-traefik) for `*.localhost` domains to avoid manual port assignment.
 
 **This is work in progress and unstable!**
 
@@ -13,7 +13,7 @@ This is somewhat of a [personal project](https://dbushell.com/2020/02/07/docker-
 ## Requirements
 
 * [Docker](https://www.docker.com/) must be installed and running on your machine.
-* Port `80` must be unbound for the proxy server to work.
+* [Traefik docker network](https://github.com/dbushell/docker-traefik)
 
 ## Install
 
@@ -33,11 +33,11 @@ Or use the `--global` flag to use `dws` commands anywhere without `npx`.
 Usage: dws <command> [options]
 
 Commands:
-  dws up [proxy]    spin up a new project
+  dws up            spin up a new project
   dws stop          stop running containers
   dws start         start existing containers
   dws url           output the *.localhost URL
-  dws down [proxy]  stop and remove existing containers
+  dws down          stop and remove existing containers
   dws eject         replace DWS dependency with config files
 
 Options:
@@ -63,8 +63,6 @@ Once successful you'll see:
 The `wp-content` directory is mounted to `wordpress` in the project repository. The entire database is mounted to `_database` (advisable to add to `.gitignore`).
 
 [phpMyAdmin](https://www.phpmyadmin.net/) is also set up on the `pma` subdomain.
-
-Use `dws up --proxy` to spin up the NGINX proxy. This happens automatically when a project is set up.
 
 ### `stop`
 
@@ -96,8 +94,6 @@ npx dws down
 ```
 
 Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repository. Unless they are deleted the `init` command can restore the project.
-
-Use `dws down --proxy` to stop and remove the NGINX proxy.
 
 ### `eject`
 
