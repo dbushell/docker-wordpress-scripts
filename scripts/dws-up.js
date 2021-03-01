@@ -2,13 +2,11 @@ import chalk from 'chalk';
 import Listr from 'listr';
 import docker from './docker.js';
 import {dwsConfig} from './dws-config.js';
-import {dwsProxyUp} from './dws-proxy-up.js';
 import {dwsInstallWP} from './dws-install-wp.js';
 import {dwsURL} from './dws-url.js';
 
 async function dwsUp() {
   await dwsConfig();
-  await dwsProxyUp();
 
   const {emitter} = docker.composeEvents({command: 'up'});
 
@@ -117,7 +115,7 @@ async function dwsUp() {
     await list.run();
     await dwsInstallWP();
     console.log(
-      `\n🐹 ${chalk.green.bold('Success:')} ${chalk.green(
+      `\n🤖 ${chalk.green.bold('Success:')} ${chalk.green(
         'WordPress is up and running!'
       )}`
     );

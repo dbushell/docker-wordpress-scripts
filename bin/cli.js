@@ -31,40 +31,8 @@ async function run(command) {
 
 yargs(hideBin(process.argv))
   .usage('Usage: $0 <command> [options]')
-  .command({
-    command: ['up [proxy]', 'init'],
-    describe: 'spin up a new project',
-    builder: {
-      proxy: {
-        type: 'boolean',
-        default: false
-      }
-    },
-    handler: (argv) => {
-      if (argv.proxy) {
-        run('proxy-up');
-      } else {
-        run('up');
-      }
-    }
-  })
-  .command({
-    command: ['down [proxy]', 'destroy'],
-    describe: 'stop and remove existing containers',
-    builder: {
-      proxy: {
-        type: 'boolean',
-        default: false
-      }
-    },
-    handler: (argv) => {
-      if (argv.proxy) {
-        run('proxy-down');
-      } else {
-        run('down');
-      }
-    }
-  })
+  .command('up', 'spin up a new project', {}, () => run('up'))
+  .command('down', 'stop and remove containers', {}, () => run('down'))
   .command('stop', 'stop running containers', {}, () => run('stop'))
   .command('start', 'start existing containers', {}, () => run('start'))
   .command('url', 'output the *.localhost URL', {}, () => run('url'))

@@ -32,7 +32,7 @@ wp --allow-root core update;
 
 echo "[✔UWP]";
 
-wp --allow-root theme activate "twentytwenty";
+wp --allow-root theme activate "twentytwentyone";
 
 WP_PLUGINS=$(wp --allow-root plugin list --status=inactive --field=name);
 [ ! -z "$WP_PLUGINS" ] && wp --allow-root plugin delete $WP_PLUGINS;

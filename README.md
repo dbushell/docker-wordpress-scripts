@@ -1,6 +1,6 @@
 ![Docker WordPress Scripts](/.github/dws-logo.svg)
 
-# Docker WordPress Scripts
+# 🤖 Docker WordPress Scripts
 
 [![npm version](https://badge.fury.io/js/docker-wordpress-scripts.svg)](https://badge.fury.io/js/docker-wordpress-scripts)
 
@@ -12,7 +12,7 @@ This is somewhat of a [personal project](https://dbushell.com/2020/02/07/docker-
 
 ## Requirements
 
-* [Docker](https://www.docker.com/) must be installed and running on your machine.
+* [Docker](https://www.docker.com/) must be installed and running on your machine
 * [Traefik docker network](https://github.com/dbushell/docker-traefik)
 
 ## Install
@@ -56,8 +56,10 @@ DWS will spin up new Docker containers and install WordPress. You'll be asked a 
 Once successful you'll see:
 
 ```
-🐹 Success: WordPress is up and running!
-➜ http://wordpress.localhost
+🤖 Success: WordPress is up and running!
+phpMyAdmin: ➜ http://pma.wordpress.localhost
+WordPress:  ➜ http://wordpress.localhost
+WordPress (auto login):  ➜ http://wordpress.localhost/wp-auto-login.php
 ```
 
 The `wp-content` directory is mounted to `wordpress` in the project repository. The entire database is mounted to `_database` (advisable to add to `.gitignore`).
@@ -110,20 +112,14 @@ localhost:8080
 localhost:8081
 ```
 
-## Using the NGINX Proxy
+## NGINX and Portainer
 
-If you want to set up a reverse proxy without the help of DWS take a look at the [compose files in this directory](https://github.com/dbushell/docker-wordpress-scripts/tree/master/config) and [nginx-proxy](https://github.com/jwilder/nginx-proxy/) by _Jason Wilder_.
-
-The proxy set up by DWS is not exclusive and can be used for other projects. Use the external Docker network `dws_nginx` with `VIRTUAL_HOST` and `VIRTUAL_PORT` environment options for the service.
-
-## Portainer
-
-An instance of [Portainer](https://www.portainer.io/) is also created behind the NGINX proxy. To configure visit:
+See [v0.9.1](https://github.com/dbushell/docker-wordpress-scripts/tree/v0.9.1) for older configurations.
 
 ```
 http://portainer.localhost
 ```
 
-## Credits / License
+* * *
 
-MIT licensed | Copyright © 2020 [David Bushell](https://dbushell.com) | [@dbushell](https://twitter.com/dbushell)
+[MIT License](/LICENSE) | Copyright © 2021 [David Bushell](https://dbushell.com) | [@dbushell](https://twitter.com/dbushell)

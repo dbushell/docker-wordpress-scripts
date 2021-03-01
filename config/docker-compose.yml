@@ -6,13 +6,17 @@ networks:
     external:
       name: traefik
 
+volumes:
+  mysql:
+  wordpress:
+
 services:
   mysql:
     container_name: '${PROJECT_NAME}_mysql'
-    image: mariadb
+    image: mariadb:latest
     restart: unless-stopped
     volumes:
-      - ${PROJECT_ROOT}/_database:/var/lib/mysql
+      - mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: wordpress
@@ -27,11 +31,10 @@ services:
     restart: unless-stopped
     depends_on:
       - mysql
-    expose:
-      - '80'
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress:/var/www/html
       - ${PROJECT_ROOT}/wordpress:/var/www/html/wp-content
+      - ../bin/wp-auto-login.php:/var/www/html/wp-auto-login.php
       - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh:ro
       - ../bin/eject-wp.sh:/usr/local/bin/eject-wp.sh:ro
       - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
@@ -41,31 +44,30 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DEBUG: 1
-      VIRTUAL_HOST: '${PROJECT_HOST}'
-      VIRTUAL_PORT: 80
     networks:
       - backend
       - frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${PROJECT_HOST}`)"
+      - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=80"
 
   phpmyadmin:
     container_name: '${PROJECT_NAME}_phpmyadmin'
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:latest
     restart: unless-stopped
     depends_on:
       - mysql
-    expose:
-      - '80'
     volumes:
       - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
       PMA_HOST: mysql:3306
       PMA_USER: wordpress
       PMA_PASSWORD: password
-      VIRTUAL_HOST: 'pma.${PROJECT_HOST}'
-      VIRTUAL_PORT: 80
     networks:
       - backend
       - frontend
-
-volumes:
-  wordpress_data:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pma${PROJECT_NAME}.rule=Host(`pma.${PROJECT_HOST}`)"
+      - "traefik.http.services.pma${PROJECT_NAME}.loadbalancer.server.port=80"
