@@ -1,37 +1,37 @@
-version: '3.5'
+version: '3'
 
 networks:
-  ejected_backend:
-  ejected_frontend:
+  backend:
+  frontend:
     driver: bridge
+
+volumes:
+  mysql:
+  wordpress:
 
 services:
   mysql:
-    container_name: '${PROJECT_NAME}_ejected_mysql'
-    image: mariadb
+    container_name: '${PROJECT_NAME}_mysql'
+    image: mariadb:latest
     restart: unless-stopped
-    ports:
-      - '3306:3306'
     volumes:
-      - ${PROJECT_ROOT}/_database:/var/lib/mysql
+      - mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: password
     networks:
-      - ejected_backend
+      - backend
 
   wordpress:
-    container_name: '${PROJECT_NAME}_ejected_wordpress'
+    container_name: '${PROJECT_NAME}_wordpress'
     image: wordpress:latest
     restart: unless-stopped
     depends_on:
       - mysql
-    ports:
-      - '8080:80'
     volumes:
-      - ejected_wordpress_data:/var/www/html
+      - wordpress:/var/www/html
       - ${PROJECT_ROOT}/wordpress:/var/www/html/wp-content
       - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
@@ -41,24 +41,25 @@ services:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DEBUG: 1
     networks:
-      - ejected_backend
-      - ejected_frontend
+      - backend
+      - frontend
+    ports:
+      - '8080:80'
 
   phpmyadmin:
-    container_name: '${PROJECT_NAME}_ejected_phpmyadmin'
-    image: phpmyadmin/phpmyadmin
+    container_name: '${PROJECT_NAME}_phpmyadmin'
+    image: phpmyadmin:latest
     restart: unless-stopped
     depends_on:
       - mysql
-    ports:
-      - '8081:80'
+    volumes:
+      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
     environment:
       PMA_HOST: mysql:3306
       PMA_USER: wordpress
       PMA_PASSWORD: password
     networks:
-      - ejected_backend
-      - ejected_frontend
-
-volumes:
-  ejected_wordpress_data:
+      - backend
+      - frontend
+    ports:
+      - '8081:80'

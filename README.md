@@ -62,9 +62,7 @@ WordPress:  ➜ http://wordpress.localhost
 WordPress (auto login):  ➜ http://wordpress.localhost/wp-auto-login.php
 ```
 
-The `wp-content` directory is mounted to `wordpress` in the project repository. The entire database is mounted to `_database` (advisable to add to `.gitignore`).
-
-[phpMyAdmin](https://www.phpmyadmin.net/) is also set up on the `pma` subdomain.
+The `wp-content` directory is mounted to `wordpress` in the project repository.
 
 ### `stop`
 
@@ -95,7 +93,7 @@ Output the `*.localhost` URL for the project.
 npx dws down
 ```
 
-Stop and remove all containers for the project leaving no trace in Docker. The database and WordPress content directories will persist in the project repository. Unless they are deleted the `init` command can restore the project.
+Stop and remove all containers and volumes for the project leaving no trace in Docker. The WordPress content directories will persist in the project repository.
 
 ### `eject`
 
@@ -115,10 +113,6 @@ localhost:8081
 ## NGINX and Portainer
 
 See [v0.9.1](https://github.com/dbushell/docker-wordpress-scripts/tree/v0.9.1) for older configurations.
-
-```
-http://portainer.localhost
-```
 
 * * *
 

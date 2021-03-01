@@ -4,7 +4,7 @@ import enquirer from 'enquirer';
 import docker from './docker.js';
 import {dwsPre} from './dws-pre.js';
 
-async function dwsDown() {
+async function dwsDown(options = {}) {
   await dwsPre();
 
   console.log(chalk.red.bold(`⚡ This will stop and remove all containers`));
@@ -24,7 +24,7 @@ async function dwsDown() {
 
   const {subprocess, emitter} = docker.composeEvents({
     command: 'down',
-    args: ['-v']
+    args: options.eject ? [] : ['-v']
   });
 
   const tasks = [

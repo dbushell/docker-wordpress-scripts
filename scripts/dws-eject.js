@@ -36,7 +36,7 @@ async function dwsEject() {
 
   await subprocess;
 
-  await dwsDown();
+  await dwsDown({eject: true});
 
   let composeFile = fs
     .readFileSync(path.resolve(ownPath, 'config/eject-docker-compose.yml'))
