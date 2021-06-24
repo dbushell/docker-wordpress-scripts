@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import readPkg from 'read-pkg';
+import {readPackageAsync} from 'read-pkg';
 import writePkg from 'write-pkg';
 import stripAnsi from 'strip-ansi';
 
@@ -12,17 +12,9 @@ const ownPath = path.resolve(
 );
 const appPath = path.resolve(cwd, '.');
 
-const ownPkg = () => {
+const appPkg = async () => {
   try {
-    return readPkg.sync({cwd: ownPath, normalize: false});
-  } catch {
-    return {};
-  }
-};
-
-const appPkg = () => {
-  try {
-    return readPkg.sync({cwd: appPath, normalize: false});
+    return readPackageAsync.sync({cwd: appPath, normalize: false});
   } catch {
     return {};
   }
@@ -49,8 +41,8 @@ function logLine(line) {
   return line;
 }
 
-function appConf(conf) {
-  const pkg = appPkg();
+async function appConf(conf) {
+  const pkg = await appPkg();
   const defaults = {
     name: pkg.name,
     hostname: `${pkg.name}.localhost`,
@@ -79,12 +71,12 @@ function appConf(conf) {
   return conf;
 }
 
-function setAppConf(dws) {
-  dws = appConf(dws);
+async function setAppConf(dws) {
+  dws = await appConf(dws);
   writePkg.sync(
     appPath,
     {
-      ...appPkg(),
+      ...(await appPkg()),
       dws: {name: dws.name, hostname: dws.hostname, title: dws.title}
     },
     {normalize: false}
@@ -95,7 +87,6 @@ export {
   appPath,
   appPkg,
   ownPath,
-  ownPkg,
   appConf,
   setAppConf,
   validateName,

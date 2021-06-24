@@ -6,7 +6,7 @@ import {dwsURL} from './dws-url.js';
 async function dwsStart() {
   await dwsPre();
 
-  const {subprocess, emitter} = docker.composeEvents({command: 'start'});
+  const {subprocess, emitter} = await docker.composeEvents({command: 'start'});
 
   const tasks = [
     {
@@ -84,7 +84,7 @@ async function dwsStart() {
 if (process.env.DWS_COMMAND === 'start') {
   const run = async () => {
     await dwsStart();
-    dwsURL();
+    await dwsURL();
   };
   run();
 }

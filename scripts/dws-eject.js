@@ -9,7 +9,7 @@ import {dwsDown} from './dws-down.js';
 
 async function dwsEject() {
   await dwsStart();
-  const conf = appConf();
+  const conf = await appConf();
 
   const {subprocess, emitter} = docker.execEvents({
     container: `${conf.name}_wordpress`,

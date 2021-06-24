@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import execa from 'execa';
 import stripAnsi from 'strip-ansi';
-import {appConf, appPath, ownPath, logLine} from './config.js';
+import {appConf, ownPath, logLine} from './config.js';
 
 function docker(config) {
   const {args, command, env, emitter} = config;
@@ -30,10 +30,10 @@ function docker(config) {
   return subprocess;
 }
 
-function composeEvents(config) {
+async function composeEvents(config) {
   let {command: composeCmd, args: composeArgs, env, file, project} = config;
 
-  const conf = appConf();
+  const conf = await appConf();
 
   if (typeof file !== 'string') {
     file = `${ownPath}/config/docker-compose.yml`;

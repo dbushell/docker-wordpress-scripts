@@ -8,7 +8,7 @@ import {dwsURL} from './dws-url.js';
 async function dwsUp() {
   await dwsConfig();
 
-  const {emitter} = docker.composeEvents({command: 'up'});
+  const {emitter} = await docker.composeEvents({command: 'up'});
 
   const mysqlTask = new Listr([
     {
@@ -119,7 +119,7 @@ async function dwsUp() {
         'WordPress is up and running!'
       )}`
     );
-    dwsURL();
+    await dwsURL();
     process.exit(0);
   } catch (err) {}
 }

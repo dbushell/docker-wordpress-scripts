@@ -3,7 +3,7 @@ import docker from './docker.js';
 import {appConf} from './config.js';
 
 async function dwsInstallWP() {
-  const conf = appConf();
+  const conf = await appConf();
 
   const container = `${conf.name}_wordpress`;
   const script = 'install-wp.sh';

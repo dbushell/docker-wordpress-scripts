@@ -23,7 +23,7 @@ async function dwsConfig() {
     );
   }
 
-  const conf = appConf();
+  const conf = await appConf();
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -61,7 +61,7 @@ async function dwsConfig() {
         }
       ]);
 
-      setAppConf(response);
+      await setAppConf(response);
       resolve();
     } catch (err) {
       console.log(err);

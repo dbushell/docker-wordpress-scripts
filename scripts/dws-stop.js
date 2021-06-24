@@ -5,7 +5,7 @@ import {dwsPre} from './dws-pre.js';
 async function dwsStop() {
   await dwsPre();
 
-  const {subprocess, emitter} = docker.composeEvents({command: 'stop'});
+  const {subprocess, emitter} = await docker.composeEvents({command: 'stop'});
 
   subprocess.on('close', (code) => {
     emitter.emit('line', 'mysql failed');

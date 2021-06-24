@@ -22,7 +22,7 @@ async function dwsDown(options = {}) {
     process.exit(0);
   }
 
-  const {subprocess, emitter} = docker.composeEvents({
+  const {subprocess, emitter} = await docker.composeEvents({
     command: 'down',
     args: options.eject ? [] : ['-v']
   });

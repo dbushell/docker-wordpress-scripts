@@ -1,7 +1,7 @@
 import path from 'path';
 import chalk from 'chalk';
 import execa from 'execa';
-import {ownPath, appPkg, ownPkg} from './config.js';
+import {ownPath, appPkg} from './config.js';
 
 async function testEnv() {
   const testSh = path.resolve(ownPath, 'bin/test-env.sh');
@@ -18,7 +18,7 @@ async function testEnv() {
 }
 
 async function dwsPre({isGlobal} = {}) {
-  const pkg = appPkg();
+  const pkg = await appPkg();
   if (!isGlobal && 'name' in pkg === false) {
     console.log(chalk.red('Cannot read project `name` from package.json'));
     process.exit(1);
