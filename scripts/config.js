@@ -14,8 +14,9 @@ const appPath = path.resolve(cwd, '.');
 
 const appPkg = async () => {
   try {
-    return readPackageAsync.sync({cwd: appPath, normalize: false});
-  } catch {
+    return await readPackageAsync({cwd: appPath, normalize: false});
+  } catch (err) {
+    console.log(err);
     return {};
   }
 };
