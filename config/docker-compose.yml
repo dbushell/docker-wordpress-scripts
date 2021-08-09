@@ -33,11 +33,13 @@ services:
       - mysql
     volumes:
       - wordpress:/var/www/html
-      - ${PROJECT_ROOT}/wordpress:/var/www/html/wp-content
+      - ${PROJECT_ROOT}/wordpress/plugins:/var/www/html/wp-content/plugins
+      - ${PROJECT_ROOT}/wordpress/themes:/var/www/html/wp-content/themes
+      - ${PROJECT_ROOT}/wordpress/debug.log:/var/www/html/wp-content/debug.log
       - ../bin/wp-auto-login.php:/var/www/html/wp-auto-login.php
-      - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh:ro
-      - ../bin/eject-wp.sh:/usr/local/bin/eject-wp.sh:ro
-      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
+      - ../bin/install-wp.sh:/usr/local/bin/install-wp.sh
+      - ../bin/eject-wp.sh:/usr/local/bin/eject-wp.sh
+      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
     environment:
       WORDPRESS_DB_HOST: mysql:3306
       WORDPRESS_DB_NAME: wordpress

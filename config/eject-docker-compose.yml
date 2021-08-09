@@ -32,8 +32,10 @@ services:
       - mysql
     volumes:
       - wordpress:/var/www/html
-      - ${PROJECT_ROOT}/wordpress:/var/www/html/wp-content
-      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini:ro
+      - ${PROJECT_ROOT}/wordpress/plugins:/var/www/html/wp-content/plugins
+      - ${PROJECT_ROOT}/wordpress/themes:/var/www/html/wp-content/themes
+      - ${PROJECT_ROOT}/wordpress/debug.log:/var/www/html/wp-content/debug.log
+      - ./php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
     environment:
       WORDPRESS_DB_HOST: mysql:3306
       WORDPRESS_DB_NAME: wordpress
