@@ -34,9 +34,9 @@
     "enquirer": "^2.3.6",
     "execa": "^5.1.1",
     "listr": "^0.14.3",
-    "read-pkg": "^6.0.0",
-    "strip-ansi": "^7.0.0",
-    "write-pkg": "^4.0.0",
-    "yargs": "^17.1.0"
+    "read-pkg": "^7.0.0",
+    "strip-ansi": "^7.0.1",
+    "write-pkg": "^5.0.0",
+    "yargs": "^17.2.1"
   }
 }
