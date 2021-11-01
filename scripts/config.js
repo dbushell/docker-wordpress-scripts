@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import {readPackageAsync} from 'read-pkg';
-import writePkg from 'write-pkg';
+import {readPackage} from 'read-pkg';
+import {writePackage} from 'write-pkg';
 import stripAnsi from 'strip-ansi';
 
 const cwd = fs.realpathSync(process.cwd());
@@ -14,7 +14,7 @@ const appPath = path.resolve(cwd, '.');
 
 const appPkg = async () => {
   try {
-    return await readPackageAsync({cwd: appPath, normalize: false});
+    return await readPackage({cwd: appPath, normalize: false});
   } catch (err) {
     console.log(err);
     return {};
@@ -74,7 +74,7 @@ async function appConf(conf) {
 
 async function setAppConf(dws) {
   dws = await appConf(dws);
-  writePkg.sync(
+  await writePackage(
     appPath,
     {
       ...(await appPkg()),
