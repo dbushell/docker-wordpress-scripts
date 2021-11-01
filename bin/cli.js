@@ -7,6 +7,12 @@ import chalk from 'chalk';
 import execa from 'execa';
 import {appPath, ownPath, logStream} from '../scripts/config.js';
 
+console.log(
+  chalk.bold(
+    '✨ This project is not under active development. It may not work with the latest Docker. Future DWS updates uncertain at this time. ✨'
+  )
+);
+
 if (appPath === ownPath) {
   console.log(chalk.red.bold(`Cannot run in own repository!`));
   process.exit(1);

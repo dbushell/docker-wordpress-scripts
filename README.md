@@ -1,5 +1,9 @@
 ![Docker WordPress Scripts](/.github/dws-logo.svg)
 
+**✨ This project is not under active development. It may not work with the latest Docker. Future DWS updates uncertain at this time. ✨**
+
+* * *
+
 # 🤖 Docker WordPress Scripts
 
 [![npm version](https://badge.fury.io/js/docker-wordpress-scripts.svg)](https://badge.fury.io/js/docker-wordpress-scripts)
