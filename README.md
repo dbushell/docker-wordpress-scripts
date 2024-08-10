@@ -12,7 +12,7 @@ DWS is a small set of scripts to manage WordPress containers in Docker. It uses 
 
 **This is work in progress and unstable!**
 
-This is somewhat of a [personal project](https://dbushell.com/2020/02/07/docker-wordpress-portless-localhost-domains/) but it solves a fairly common problem so I'm sharing it for anyone to use and adapt. Follow [@dbushell](https://twitter.com/dbushell) for updates and feedback.
+This is somewhat of a [personal project](https://dbushell.com/2020/02/07/docker-wordpress-portless-localhost-domains/) but it solves a fairly common problem so I'm sharing it for anyone to use and adapt.
 
 ## Requirements
 
@@ -120,4 +120,4 @@ See [v0.9.1](https://github.com/dbushell/docker-wordpress-scripts/tree/v0.9.1) f
 
 * * *
 
-[MIT License](/LICENSE) | Copyright © 2021 [David Bushell](https://dbushell.com) | [@dbushell](https://twitter.com/dbushell)
+[MIT License](/LICENSE) | Copyright © 2021 [David Bushell](https://dbushell.com)
