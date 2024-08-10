@@ -1,13 +1,13 @@
 {
   "name": "docker-wordpress-scripts",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "Scripts to manage WordPress containers in Docker",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dbushell/docker-wordpress-scripts.git"
   },
   "type": "module",
-  "author": "David Bushell <david@dbushell.com>",
+  "author": "David Bushell",
   "license": "MIT",
   "bin": {
     "docker-wordpress-scripts": "bin/cli.js",
